@@ -1,4 +1,4 @@
-public class main{
+public class lista{
 	
 	class Lista{
 		int [] array;
