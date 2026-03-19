@@ -1,0 +1,120 @@
+[33mcommit 89a5eeb4576a364880dc8edc1cab6c1c02932561[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Thu Mar 19 15:05:31 2026 -0300
+
+    arrumando pastas
+
+[33mcommit 1ca74ef75f778e860765026780963f7fd470a5a1[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Thu Mar 19 14:31:07 2026 -0300
+
+    quicksort implementado
+
+[33mcommit 742164ca979f96247c2de3b6f3490ab8a9f962b6[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Thu Mar 19 08:38:07 2026 -0300
+
+    lab
+
+[33mcommit 723a8832ee30dc338f2d1e47bb9ef8a8be07f857[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Thu Mar 19 08:21:19 2026 -0300
+
+    lab
+
+[33mcommit 561493e0d9c9bbe6fd01c79ace97c2c3b690874f[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Thu Mar 19 08:14:52 2026 -0300
+
+    ?
+
+[33mcommit 18bbaebe027a222268732da48bb30bd6e63973c4[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Thu Mar 19 07:55:35 2026 -0300
+
+    lab
+
+[33mcommit 09ea23da3b0ade18b619bc71d0c7736f47b8a050[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Thu Mar 19 07:55:13 2026 -0300
+
+    comeco lab
+
+[33mcommit 30a7be686ca1b3fca9b4f913441a1e45317d5d74[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Wed Mar 18 17:56:55 2026 -0300
+
+    comeco tp
+
+[33mcommit 195362b245be2dc12b8836d2e2003c5912f906a9[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Wed Mar 18 12:11:43 2026 -0300
+
+    fila circular metodos implementados
+
+[33mcommit 68a653f91816cdf7ef82f3c725b10491fd44994d[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Wed Mar 18 11:43:50 2026 -0300
+
+    metodos pilha
+
+[33mcommit b179a804f6954522534633c1da419cef1e3ad347[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Tue Mar 17 15:13:37 2026 -0300
+
+    bolha implementado
+
+[33mcommit 6f0f25ab13f33bff7bec18c3866358181131eac9[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Tue Mar 17 14:57:26 2026 -0300
+
+    insercao implementado
+
+[33mcommit 39705a7d305d2d13dc892653a2a5def0f376e007[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Tue Mar 17 14:45:08 2026 -0300
+
+    selecao implementado
+
+[33mcommit 22b382b69a1b197afe0be4ac3a22779346959632[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Tue Mar 17 09:33:12 2026 -0300
+
+    criacao TP
+
+[33mcommit 420b3d8fb8be9c99833409c1086b8973d969b731[m
+Merge: e715d49 2a4122f
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Mon Mar 16 15:11:34 2026 -0300
+
+    Merge branch 'master' of github.com:BrunoMoacir/AEDS-2.0
+
+[33mcommit e715d4967fc6c39657c210cf8d884da34652fb04[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Mon Mar 16 15:10:07 2026 -0300
+
+    pasta pilha criada
+
+[33mcommit 2a4122fd0b87d6703183e0ff9c47824b81d0d99a[m
+Author: Bruno <48284788+BrunoMoacir@users.noreply.github.com>
+Date:   Mon Mar 16 15:04:24 2026 -0300
+
+    Update lista.java
+
+[33mcommit 6df00d932cdadba03874282908d9ac2d4008476d[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Mon Mar 16 14:43:40 2026 -0300
+
+    lista em C
+
+[33mcommit 39daee1b4699f7d68e6612e23e0b6053a9dfbbe1[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Mon Mar 16 14:31:44 2026 -0300
+
+    lista em java
+
+[33mcommit e740cfc4376329e927f4a133406f2dfc9e52259a[m
+Author: Bruno Moacir <brunopmoacir129@gmail.com>
+Date:   Mon Mar 16 14:08:54 2026 -0300
+
+    pasta lista criada
