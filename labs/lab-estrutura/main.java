@@ -58,7 +58,7 @@ public class main{
 			FilaPrioridade filaPrio = new FilaPrioridade();
 
 			boolean ehPilha = true;
-			boolean ehFIla = true;
+			boolean ehFila = true;
 			boolean ehFilaPrio = true;
 
 			for(int i = 0; i < n; i++){
@@ -70,6 +70,18 @@ public class main{
 					filaPrio.inserir(x);
 				}
 			}
+			if(ehPilha){
+				System.out.println("stack");
+			}else if(ehFila){
+				System.out.println("queue");
+			}else if(ehFilaPrio){
+				System.out.println("priority queue");
+			}else if((ehPilha && ehFila) || (ehPilha && ehFilaPrio) || (ehFila && ehFilaPrio)){
+				System.out.println("not sure");
+			}else{
+				System.out.println("impossible");
+			}
+			
 		}
 		sc.close();
 	}
