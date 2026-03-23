@@ -7,7 +7,7 @@ class questao2 {
 
         String linha = MyIO.readLine();
 
-        while (linha != null && !linha.equals("FIM")) {// ler ate o fim do arquivo ou a palavra FIM
+        while (linha != null && !Fim(linha)) {// ler ate o fim do arquivo ou a palavra FIM
 
             char letraOriginal = (char) ('a' + (Math.abs(gerador.nextInt()) % 26));// sorteio
             char letraNova = (char) ('a' + (Math.abs(gerador.nextInt()) % 26));
@@ -19,6 +19,10 @@ class questao2 {
             linha = MyIO.readLine();
         }
 
+    }
+
+    public static boolean Fim(String linha){
+        return (linha.length() == 3 && linha.charAt(0) == 'F' && linha.charAt(1) == 'I' && linha.charAt(2) == 'M');
     }
 
     public static String alterar(String texto, char letraOriginal, char letraNova) {// recebe a string e as duas letras sorteadas
