@@ -4,7 +4,7 @@
 int main(){
     char s[100];// declaro a string
 
-    scanf("%s", s);// leio ate enter ou espaco (nao uso & por ja ser um ponteiro)
+    scanf(" %[^\n]", s);// leio toda a string inclusive espacos
 
     while(!(s[0] == 'F' && s[1] == 'I' && s[2] == 'M')){// enquanto for != de FIM
         int n = 0;
@@ -15,7 +15,7 @@ int main(){
             printf("%c", s[i]);
         }
         printf("\n");
-        scanf("%s", s);
+        scanf(" %[^\n]", s);
     }
     return 0;
 }
