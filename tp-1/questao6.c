@@ -61,14 +61,14 @@ int main(){
     char palavra1[100];
     char palavra2[100];
 
-    while(scanf("%s",palavra1) == 1){
+    while(scanf("%s",palavra1) == 1){// enquanto tiver palavra para ler
         if(isFim(palavra1)){
             break;
         }
 
         scanf("%s", palavra2);
 
-        if(isAnagrama(palavra1, palavra2) == 1){
+        if(isAnagrama(palavra1, palavra2) == 1){// chama a funcao principal para verificar anagrama
             printf("SIM\n");
         } else{
             printf("NAO\n");
