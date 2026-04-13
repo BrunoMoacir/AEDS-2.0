@@ -2,7 +2,7 @@ public class questao1 {
 
     public static void main(String[] args) {
         String linha = MyIO.readLine();
-        while (linha != null && linha.length() > 0){// enquanto tiver coisa para ler
+        while (linha != null){// enquanto tiver coisa para ler
             // chamada funcao
             String mensagemCriptografada = cifrar(linha);
             
