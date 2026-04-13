@@ -46,7 +46,7 @@ int isAnagrama(char str1[], char str2[]){// metodo iterativo do anagrama
         char letra2 = converteMinuscula(str2[i]);
 
         contador[(int)letra1] ++;
-        contador[(int)letra2] ++;
+        contador[(int)letra2] --;
     }
 
     for(int i = 0; i < 200; i++){// ve se sobrou alguma letra
