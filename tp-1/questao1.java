@@ -2,7 +2,7 @@ public class questao1 {
 
     public static void main(String[] args) {
         String linha = MyIO.readLine();
-        while (linha.length() > 0){// enquanto tiver coisa para ler
+        while (!isFim(linha)){// enquanto tiver coisa para ler
             // chamada funcao
             String mensagemCriptografada = cifrar(linha);
             
@@ -22,5 +22,9 @@ public class questao1 {
         }
 
         return resultado;
+    }
+
+    public static boolean isFim(String linha){
+        return(linha.length() == 3 && linha.charAt(0) == 'F' && linha.charAt(1) == 'I' && linha.charAt(2) == 'M');
     }
 }

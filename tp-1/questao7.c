@@ -18,7 +18,7 @@ int isFim(char str[]){// funcao para verificar se ja chegou em FIM
 
 int substringMaisLonga(char str[]){
     int n = tamanho(str);
-    int max_len = 0;
+    int max_len = 0;// guardo o maior valor
 
     // ponteiros
     int inicio = 0;
@@ -30,26 +30,26 @@ int substringMaisLonga(char str[]){
         janela[i] = 0;
     }
 
-    while(fim < n){
+    while(fim < n){// corro a string inteira
         char charAtual = str[fim];
 
         int indiceAtual = charAtual + 128;// garantia q seja de 0 - 255
 
         if(janela[indiceAtual] == 0){
-            janela[indiceAtual] = 1;
+            janela[indiceAtual] = 1;// se a letra ainda nao ta na janela, marco ela como presente
 
             int tamanhoAtual = fim - inicio + 1;
             if(tamanhoAtual > max_len){
-                max_len = tamanhoAtual;
+                max_len = tamanhoAtual;// atualizo 
             }
-            fim ++;
-        }else{
+            fim ++;// expando para direita
+        }else{// se a letra ja ta na janela
             char charInicio = str[inicio];
 
             int indiceInicio = charInicio + 128;
 
-            janela[indiceInicio] = 0;
-            inicio ++;
+            janela[indiceInicio] = 0;// tiro ela do inicio do array
+            inicio ++;// encolho a janela p esquerda para tirar repeticao
         }
     }
     return max_len;
@@ -57,10 +57,10 @@ int substringMaisLonga(char str[]){
 int main(){
     char linha[1000];
     while(scanf("%s", linha) == 1){
-        if(isFim(linha)){
+        if(isFim(linha)){// se for FIM acaba 
             break;
         }
-        printf("%d\n", substringMaisLonga(linha));
+        printf("%d\n", substringMaisLonga(linha));//mando para a funcao de substring e printo o resultado
     }
     return 0;
 }
