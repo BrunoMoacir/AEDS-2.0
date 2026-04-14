@@ -12,11 +12,9 @@ public class questao8 {
             char c = str.charAt(i);
             if (c >= 'a' && c <= 'z') {// se tiver minuscula incrementa
                 minuscula++;
-            }
-            if (c >= 'A' && c <= 'Z') {// se tiver maiuscula incrementa
+            } else if (c >= 'A' && c <= 'Z') {// se tiver maiuscula incrementa
                 maiuscula++;
-            }
-            if (c >= '0' && c <= '9') {// se tiver numero incrementa
+            } else if (c >= '0' && c <= '9') {// se tiver numero incrementa
                 numero++;
             } else {
                 charEspecial++;// caso nao seja nenhum dos acimas e especial
