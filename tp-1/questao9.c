@@ -17,7 +17,7 @@ void cifraRecursivo(char str[], int i)
         return;
     }
 
-    str[i] = str[i] + 3;// cifro ela
+    str[i] = str[i] + 3;// cifro elas
 
     cifraRecursivo(str, i + 1);// chamo a funcao recursivamente para continuar no proximo caractere
 }
