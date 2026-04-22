@@ -317,26 +317,15 @@ public class questao4{
             int j = i - 1;
 
             while(j >= 0){
-                comparacoes ++;// conto a comparacao inicial
+                comparacoes ++;// conto a comparacao
                 int compCidade = array[j].getCidade().compareTo(tmp.getCidade());
-
-                // se a cidade for maior (alfabeto), troco
-                if(compCidade > 0){
+                
+                if(compCidade > 0){// se a cidade for maior(alfabeto ) vai p direita
                     array[j + 1] = array[j];
                     movimentacoes ++;
                     j --;
-                }else if(compCidade == 0){// desempate -> se a cidade for igual comparo pelo nome
-                    comparacoes ++;
-                    if(array[j].getNome().compareTo(tmp.getNome()) > 0){
-                        array[j + 1] = array[j];
-                        movimentacoes ++;
-                        j--;
-                    } else{
-                        break;// nome ja ta na ordem correta
-                    }
-                }
-                else{
-                    break;// cidade ja ta na ordem correta
+                }else{
+                    break;// se a cidade for menor ou igual para
                 }
             }
             array[j + 1] = tmp;
