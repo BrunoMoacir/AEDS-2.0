@@ -82,7 +82,7 @@ class Data{
     public static Data parseData(String s){
         Data d = new Data();
 
-        String[] p = Util.extrairCampos(s, "-");// uso meu util para cortar a data no formato certo
+        String[] p = Util.extrairCampos(s, '-');// uso meu util para cortar a data no formato certo
 
         // uso o util para transformar pedacos de texto em numeros
         d.setAno(Util.paraInt(p[0]));
