@@ -164,10 +164,10 @@ class Restaurante{
     public void setFaixaPreco(int fp){
         this.faixaPreco = fp;
     }
-    public void setHAb(hora h){
+    public void setHAb(Hora h){
         this.hAb = h;
     }
-    public void setHFe(hora h){
+    public void setHFe(Hora h){
         this.hFe = h;
     }
     public void setDAb(Data d){
@@ -177,5 +177,126 @@ class Restaurante{
         this.aberto = a;
     }
 
-    
+    public static Restaurante parseRestaurante(String s){
+        Restaurante r = new Restaurante();
+
+        String[] p = Util.extrairCampos(s, ',');// corto a linha do csv pelas virgulas
+
+        r.setId(Util.paraInt(p[0]));
+        r.setNome(p[1]);
+        r.setCidade(p[2]);
+        r.setCapacidade(Util.paraInt(p[3]));
+        r.setAvaliacao(Util.paraDouble(p[4]));
+
+        r.setTiposCozinha(Util.extrairCampos(p[5], ';'));// corto pelo ponto e virgula
+
+        r.setFaixaPreco(p[6].length());// pego o tamanho da string(ja e a faixa d preco)
+
+        String[] h = Util.extrairCampos(p[7], '-');// o bloco de horario e separado pelo traco
+        r.setHAb(Hora.parseHora(h[0]));
+        r.setHFe(hora.parseHora(h[1]));
+
+        r.setDAb(Data.parteData(p[8]));
+
+        if(p[9].compareTo("true") == 0){
+            r.setAberto(true);
+        }else{
+            r.setAberto(false);
+        }
+        return r;
+    }
+
+    public String formatar(){
+        // monto o array de cozinhas
+        String tc = "[";
+        for(int i = 0; i < tiposCozinha.length; i++){
+            tc += tiposCozinha[i];
+            if(i < tiposCozinha.length - 1){// so coloco virgula se nao for o ultimo
+                tc += ",";
+            }
+        }
+        tc += "]";
+
+        // monto a faixa de preco e concateno o $
+        String fp = "";
+        for(int i = 0; i < faixaPreco; i++){
+            fp += "$";
+        }
+
+        String abStr;// transformo o boolean em palavra
+        if(aberto){
+            abStr = "true";
+        }else{
+            abStr = "false";
+        }
+
+        return String.format("[%d ## %s ## %s ## %d ## %s ## %s ## %s ## %s-%s ## %s ## %s]",id, nome, cidade, capacidade, ""+avaliacao, tc, fp, hAb.formatar(), hFe.formatar(), dAb.formatar(), abStr);
+    }
+}
+
+// COLECAO RESTAURANTES
+class ColecaoRestaurantes{
+    private int n;// contador de restaurantes
+    private Restaurante[] lista;
+
+    public ColecaoRestaurantes(){// construtor
+        n = 0;
+        lista = new Restaurante[1000];// coloquei limite alto, qqr coisa melhoro dps 
+    }
+
+    public int getTamanho(){
+        return n;
+    }
+    public Restaurante[] gRestaurantes(){
+        return lista;
+    }
+
+    public void lerCsv(String path)throws Exception{
+        Scanner sc = new Scanner(new File(path));
+
+        if(sc.hasNextLine()) sc.nextLine()// pulo o cabecalho da primeira linha
+
+        while(sc.hasNextLine()){
+            String linha = sc.nextLine();
+            if(linha.length() > 0){
+                String limpa = "";// limpeza para tirar o \r se preciso (enter)
+                for(int i = 0; i < linha.length(); i++){
+                    if(linha.charAt(i) != '\r'){
+                        limpa += linha.charAt(i);
+                    }
+                }
+                lista[n++] = Restaurante.parseRestaurante(limpa);// salvo o restaurante no espaco atual e avanco o ponteiro
+            }
+        }
+        sc.close();
+    }
+}
+
+// QUESTAO 1
+
+public class questao1{
+    public static void main(String[] args) throws Exception{
+        ColecaoRestaurantes col = new ColecaoRestaurantes();// crio a colecao
+        col.lerCsv("/tmp/restaurantes.csv");// leio o caminho correto (alterar quando mandar no verde "/tmp/restaurantes.csv")
+
+        Scanner sc = new Scanner(System.in);
+
+        while(sc.hasNext()){// leio os IDs
+            String idBusca = sc.next();
+
+            if(idBusca.compareTo("-1") == 0){//paro de ler no -1
+                break;
+            }
+
+            int id = Util.paraInt(idBusca);// converto o id de texto para numero
+
+            for(int i = 0; i < col.getTamanho(); i++){// ando pelo array inteiro ate achar o id
+                if(col.getRestaurantes()[i].getId() == id){
+                    System.out.println(col.getRestaurantes()[i].formatar());// quando acho imprimo e paro o for
+                    break;
+                }
+            }
+        }
+        sc.close();
+    }
 }
