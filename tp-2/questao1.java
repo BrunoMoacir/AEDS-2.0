@@ -155,7 +155,7 @@ class Restaurante{
     public void setCapacidade(int capacidade){
         this.capacidade = capacidade;
     }
-    public void setAvaliacao(double Avaliacao){
+    public void setAvaliacao(double avaliacao){
         this.avaliacao = avaliacao;
     }
     public void setTiposCozinha(String[] tc){
@@ -194,9 +194,9 @@ class Restaurante{
 
         String[] h = Util.extrairCampos(p[7], '-');// o bloco de horario e separado pelo traco
         r.setHAb(Hora.parseHora(h[0]));
-        r.setHFe(hora.parseHora(h[1]));
+        r.setHFe(Hora.parseHora(h[1]));
 
-        r.setDAb(Data.parteData(p[8]));
+        r.setDAb(Data.parseData(p[8]));
 
         if(p[9].compareTo("true") == 0){
             r.setAberto(true);
@@ -247,14 +247,14 @@ class ColecaoRestaurantes{
     public int getTamanho(){
         return n;
     }
-    public Restaurante[] gRestaurantes(){
+    public Restaurante[] getRestaurantes(){
         return lista;
     }
 
     public void lerCsv(String path)throws Exception{
         Scanner sc = new Scanner(new File(path));
 
-        if(sc.hasNextLine()) sc.nextLine()// pulo o cabecalho da primeira linha
+        if(sc.hasNextLine()) sc.nextLine();// pulo o cabecalho da primeira linha
 
         while(sc.hasNextLine()){
             String linha = sc.nextLine();
