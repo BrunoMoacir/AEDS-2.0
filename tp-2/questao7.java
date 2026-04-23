@@ -344,7 +344,7 @@ public class questao7{
     }
 
     public static void main(String[] args)throws Exception {
-        long inicioTempo = System.currentTimeMillis();
+        long inicioTempo = System.currentTimeMillis();// marco o tempo de inicio
 
         ColecaoRestaurantes col = new ColecaoRestaurantes();
         col.lerCsv("/tmp/restaurantes.csv");
@@ -352,34 +352,34 @@ public class questao7{
         Scanner sc = new Scanner(System.in);
 
         Restaurante[] array = new Restaurante[1000];
-        int n = 0;
+        int n = 0;// contador de restaurantes
 
         while(sc.hasNext()){
             String idBusca = sc.next();
 
-            if(idBusca.compareTo("-1") == 0){
+            if(idBusca.compareTo("-1") == 0){// paro de ler quando chegar -1
                 break;
             }
 
-            int id = Util.paraInt(idBusca);
+            int id = Util.paraInt(idBusca);// converto a string para int
 
             for(int i = 0; i < col.getTamanho(); i++){
-                if(col.getRestaurantes()[i].getId() == id){
-                    array[n++] = col.getRestaurantes()[i];
-                    break;
+                if(col.getRestaurantes()[i].getId() == id){// procuro o restaurante
+                    array[n++] = col.getRestaurantes()[i];// acho q coloco na prox posicao
+                    break;// paro o for
                 }
             }
         }
         sc.close();
 
-        mergeSort(array, 0, n - 1);
+        mergeSort(array, 0, n - 1);// chamo a funcao passando o array q coloquei
 
         for(int i = 0; i < n; i++){
-            System.out.println(array[i].formatar());
+            System.out.println(array[i].formatar());// formato e imprimo cada restaurante
         }
 
-        long fimTempo = System.currentTimeMillis();
-        long tempoTotal = fimTempo - inicioTempo;
+        long fimTempo = System.currentTimeMillis();// marco o tempo final
+        long tempoTotal = fimTempo - inicioTempo;// faco a subtracao para saber o tempo total
 
         FileWriter log = new FileWriter("885492_mergesort.txt");
         log.write("885492\t" + comparacoes + "\t" + movimentacoes + "\t" + tempoTotal);
