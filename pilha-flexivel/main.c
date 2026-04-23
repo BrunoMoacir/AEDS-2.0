@@ -15,7 +15,7 @@ void inserir(int x){
     tmp = NULL;// libero a temporaria
 }
 
-int remover{
+int remover(){
     if(topo == NULL){// se a pilha estiver vazia da erro
         errx(1,"erro");
     }
@@ -31,8 +31,8 @@ int remover{
 void mostrar(){
     Celula* i;
     printf("[");
-    for(i = topo; i != null; i = i->prox){
-        printf("%d ", i.elemento);
+    for(i = topo; i != NULL; i = i->prox){
+        printf("%d ", i->elemento);
     }
     printf("]");
 }
