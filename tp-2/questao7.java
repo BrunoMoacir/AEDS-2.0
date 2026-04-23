@@ -202,10 +202,12 @@ class Restaurante{
 
         r.setDAb(Data.parseData(p[8]));
 
-        if(p[9].compareTo("true") == 0){
-            r.setAberto(true);
-        }else{
-            r.setAberto(false);
+        r.setAberto(false);
+
+        for(int i = 0; i < p[9].length(); i++){
+            if(p[9].charAt(i) == 't' || p[9].charAt(i) == 'T'){
+                r.setAberto(true);
+            }
         }
         return r;
     }
@@ -299,7 +301,7 @@ public class questao7{
         Restaurante[] a2 = new Restaurante[n2];
 
         for(int i = 0; i < n1; i++){// copio os dados originais para o array temporario
-            a1[i] = array[esq + 1];
+            a1[i] = array[esq + i];
             movimentacoes ++;// acho que copia conta como movimentacao
         }
         for(int j = 0; j < n2; j++){
