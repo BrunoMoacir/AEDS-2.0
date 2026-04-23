@@ -307,6 +307,48 @@ public class questao5{
         if(sc.hasNextLine()){
             sc.nextLine();// limpo o buffer (deu erro 1.a vez)
         }
-        
+
+        int comparacoes = 0;
+
+        while(sc.hasNextLine()){
+            String nomeBusca = sc.nextLine();
+
+            if(nomeBusca.length() > 0){// verifico se a linha tem texto
+                String nomeLimpo = "";
+                for(int i = 0; i < nomeBusca.length(); i++){
+                    if(nomeBusca.charAt(i) != '\r'){
+                        nomeLimpo += nomeBusca.charAt(i);
+                    }
+                }
+
+                if(nomeLimpo.length() == 3 && nomeLimpo.charAt(0) == 'F' && nomeLimpo.charAt(1) == 'I' && nomeLimpo.charAt(2) == 'M'){// verifico se e FIM
+                    break;
+                }
+
+                boolean achou = false;// verificacao se o restaurante foi encontrado
+
+                for(int i = 0; i < n; i++){// pesquisa sequencial
+                    comparacoes ++;// conto comparacoes
+
+                    if(array[i].getNome().compareTo(nomeLimpo) == 0){//comparo os nomes
+                        achou = true;
+                        break;// achei parei
+                    }
+                }
+                if(achou){// imprimir resultado
+                    System.out.println("SIM");
+                }else{
+                    System.out.println("NAO");
+                }
+            }
+        }
+        sc.close();
+        long fimTempo = System.currentTimeMillis();// pego a hr q acabou
+        long tempoTotal = fimTempo - inicioTempo;// tiro a diferenca
+
+        FileWriter log = new FileWriter("885492_sequencial.txt");
+
+        log.write("885492\t" + comparacoes + "\t" + tempoTotal);
+        log.close();
     }
 }

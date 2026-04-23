@@ -337,7 +337,7 @@ public class questao4{
         long fimTempo = System.currentTimeMillis();
         long tempoTotal = fimTempo - inicioTempo;
 
-        FileWriter log = new FileWriter("matricula_insercao.txt");
+        FileWriter log = new FileWriter("885492_insercao.txt");
 
         log.write("885492\t" + comparacoes + "\t" + movimentacoes + "\t" + tempoTotal);
         log.close();
