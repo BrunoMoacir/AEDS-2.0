@@ -382,7 +382,7 @@ class Lista{
     }
 
     public Restaurante remover(int pos) throws Exception{
-        if(n == 0 || pos < 0 || pos < n){
+        if(n == 0 || pos < 0 || pos >= n){
             throw new Exception("Erro");// lista vazia ou posicao invalida
         }
 
@@ -397,7 +397,7 @@ class Lista{
 
     public void mostrar(){
         for(int i = 0; i < n; i++){
-            System.out.println("[" + i + "]" + array[i].formatar());
+            System.out.println(array[i].formatar());
         }
     }
 }
@@ -444,7 +444,7 @@ public class questao11{
                 int id = Util.paraInt(sc.next());
                 lista.inserirInicio(buscarPorId(col, id));
 
-            }else if(comando.compareTo("I+") == 0){
+            }else if(comando.compareTo("I*") == 0){
                 int pos = Util.paraInt(sc.next());// leio a posicao
                 int id = Util.paraInt(sc.next());// leio o id
                 lista.inserir(buscarPorId(col, id),pos);
@@ -457,7 +457,7 @@ public class questao11{
                 Restaurante rem = lista.removerInicio();
                 System.out.println("(R)" + rem.getNome());//remocao tem q sair assim
 
-            }else if(comando.compareTo("R+") == 0){
+            }else if(comando.compareTo("R*") == 0){
                 int pos = Util.paraInt(sc.next());// leio a posicao e transformo em int
                 Restaurante rem = lista.remover(pos);// guardo o restaurante removido
                 System.out.println("(R)" + rem.getNome());// imprimo
