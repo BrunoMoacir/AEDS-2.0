@@ -455,16 +455,16 @@ public class questao11{
 
             }else if(comando.compareTo("RI") == 0){
                 Restaurante rem = lista.removerInicio();
-                System.out.println("(R) " + rem.getNome());//remocao tem q sair assim
+                System.out.println("(R)" + rem.getNome());//remocao tem q sair assim
 
             }else if(comando.compareTo("R+") == 0){
                 int pos = Util.paraInt(sc.next());// leio a posicao e transformo em int
                 Restaurante rem = lista.remover(pos);// guardo o restaurante removido
-                System.out.println("(R) " + rem.getNome());// imprimo
+                System.out.println("(R)" + rem.getNome());// imprimo
 
             }else if(comando.compareTo("RF") == 0){
                 Restaurante rem = lista.removerFim();// pego o restaurante e removo no fim
-                System.out.println("(R) " + rem.getNome());// imprimo
+                System.out.println("(R)" + rem.getNome());// imprimo
             }
         }
         sc.close();
