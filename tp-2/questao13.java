@@ -340,7 +340,7 @@ class Fila{
 
         primeiro = (primeiro + 1) % tamanhoFisico;// ando em circulo com o primeiro
 
-        System.out.println("(R" + resp.getNome());
+        System.out.println("(R)" + resp.getNome());
 
         return resp;
     }
