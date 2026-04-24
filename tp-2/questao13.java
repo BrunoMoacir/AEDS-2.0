@@ -279,196 +279,116 @@ class Restaurante {
     }
 }
 
-// COLECAO RESTAURANTES
-class ColecaoRestaurantes {
-    private int n;// contador de restaurantes
-    private Restaurante[] lista;
-
-    public ColecaoRestaurantes() {// construtor
-        n = 0;
-        lista = new Restaurante[1000];// coloquei limite alto, qqr coisa melhoro dps
-    }
-
-    public int getTamanho() {
-        return n;
-    }
-
-    public Restaurante[] getRestaurantes() {
-        return lista;
-    }
-
-    public void lerCsv(String path) throws Exception {
-        Scanner sc = new Scanner(new File(path));
-
-        if (sc.hasNextLine())
-            sc.nextLine();// pulo o cabecalho da primeira linha
-
-        while (sc.hasNextLine()) {
-            String linha = sc.nextLine();
-            if (linha.length() > 0) {
-                String limpa = "";// limpeza para tirar o \r se preciso (enter)
-                for (int i = 0; i < linha.length(); i++) {
-                    if (linha.charAt(i) != '\r') {
-                        limpa += linha.charAt(i);
-                    }
-                }
-                lista[n++] = Restaurante.parseRestaurante(limpa);// salvo o restaurante no espaco atual e avanco o
-                                                             // ponteiro
-            }
-        }
-        sc.close();
-    }
-}
-
-class Lista{
+class Fila{
     private Restaurante[] array;
-    private int n;// contador de elementos da lista
+    private int primeiro,ultimo;
+    private int tamanhoFisico;
 
-    public Lista(int tamanho){
-        array = new Restaurante[tamanho];
-        n = 0;
+    public Fila(int tamanhoDesejado){
+        tamanhoFisico = tamanhoDesejado + 1;// pede tamanho 5, entao o array precisa de 6
+        array = new Restaurante[tamanhoFisico];
+        primeiro = 0;
+        ultimo = 0;
     }
 
-    public void inserirInicio(Restaurante r)throws Exception{// inserir inicio -> empurro todos p frente e coloco no 0
-        if(n >= array.length){
-            throw new Exception("Erro");// lista cheia
+    public Restaurante remover() throws Exception{
+        if(primeiro == ultimo){
+            throw new Exception("Erro");// fila vazia
         }
-        for(int i = n; i > 0; i--){// vou do ultimo ao primeiro elemento empurrando p direita
-            array[i] = array[i - 1];
-        }
-        array[0] = r;
-        n++;
-    }
+        Restaurante resp = array[primeiro];
 
-    public void inserir(Restaurante r, int pos) throws Exception{
-        if(n >= array.length || pos < 0 || pos > n){
-            throw new Exception("Erro");// lista cheia ou posicao invalida
-        }
-        for(int i = n; i > pos; i--){// empuro todos ate chegar na posicao e deixar ela livre
-            array[i] = array[i - 1];
-        }
-        array[pos] = r;// insiro o elemento
-        n++;// aumento o indice
-    }
+        primeiro = (primeiro + 1) % tamanhoFisico;// ando em circulo com o primeiro
 
-    public void inserirFim(Restaurante r) throws Exception{
-        if( n >= array.length){
-            throw new Exception("Erro");// lista cheia
-        }
-        array[n] = r;
-        n++;
-    }
+        System.out.println("(R" + resp.getNome());
 
-    public Restaurante removerInicio() throws Exception{
-        if(n == 0){
-            throw new Exception("Erro"); // lista vazia
-        }
-        Restaurante resp = array[0];// guardo o que vou retirar
-        n --;// diminuo a lista
-
-        for(int i = 0; i < n; i++){
-            array[i] = array[i + 1];
-        }
         return resp;
     }
 
-    public Restaurante removerFim() throws Exception{
-        if(n == 0){
-            throw new Exception("Erro"); // lista vazia
-        }
-        n --;// diminuo indice
-        Restaurante resp = array[n];
-        return resp;// retorno elemento
-    }
-
-    public Restaurante remover(int pos) throws Exception{
-        if(n == 0 || pos < 0 || pos >= n){
-            throw new Exception("Erro");// lista vazia ou posicao invalida
+    public void inserir(Restaurante r) throws Exception{
+        if(((ultimo + 1) % tamanhoFisico) == primeiro){// caso a fila circular estiver cheia
+            remover();// removo o mais antigo para colocar outro
         }
 
-        Restaurante resp = array[pos];// guardo restaurante removido
-        n --;// diminuo o indice
+        array[ultimo] = r;
 
-        for(int i = pos; i < n; i++){// preencho o espaco vazio do restaurante removido
-            array[i] = array[i + 1];
+        ultimo = (ultimo + 1) % tamanhoFisico;// ando em circulo com o ultimo
+        // calculo da media
+        int soma = 0;
+        int cont = 0;
+        int i = primeiro;
+
+        while(i != ultimo){// varro a fila circular ate chegar no ultimo el
+            soma += array[i].getDAb().getAno();
+            cont ++;
+            i = (i + 1) % tamanhoFisico;
         }
-        return resp;// retorno ele
+
+        int div = soma / cont;// pego a divisao sem decimal
+        int resto = soma % cont;// pego o que sobrou
+
+        int media = div;
+
+        if(resto * 2 >= cont){// arredondo caso seja preciso
+            media ++;
+        }
+
+        System.out.println("(I)" + media);
     }
 
     public void mostrar(){
-        for(int i = 0; i < n; i++){
+        int i = primeiro;
+        while(i != ultimo){
             System.out.println(array[i].formatar());
+            i = (i + 1) % tamanhoFisico;
         }
     }
 }
 
-public class questao11{
+public class questao13{
     public static Restaurante buscarPorId(ColecaoRestaurantes col, int id){
-        for(int i = 0; i < col.getTamanho(); i++){
-            if(col.getRestaurantes()[i].getId() == id){// busco o restaurante
+        for(int i = 0; col.getTamanho(); i++){
+            if(col.getRestaurantes()[i].getId() == id){
                 return col.getRestaurantes()[i];
             }
         }
-        return null;//se nao achar retorno nulo
+        return null;
     }
 
     public static void main(String[] args)throws Exception {
         ColecaoRestaurantes col = new ColecaoRestaurantes();
-        col.lerCsv("/tmp/restaurantes.csv");// mudar quando for jogar no verde
+        col.lerCsv("/tmp/restaurantes.csv");
 
         Scanner sc = new Scanner(System.in);
 
-        Lista lista = new Lista(1000);
+        Fila fila = new Fila(5);// crio fila de tamanho 5
 
         while(sc.hasNext()){
             String idBusca = sc.next();
             if(idBusca.compareTo("-1") == 0){
                 break;
             }
-
-            int id = Util.paraInt(idBusca);
-
+            int id = Util.paraInt(idBusca);// transformo a string para int
             Restaurante r = buscarPorId(col, id);
 
             if(r != null){
-                lista.inserirFim(r);// todos registros inseridos no final
+                fila.inserir(r);// insiro e ela mesmo ja trata remocao
             }
         }
 
-        int numOperacoes = Util.paraInt(sc.next());// leio a qt de operacoes que vai mandar
+        int numOperacoes = Util.paraInt(sc.next());
 
         for(int i = 0; i < numOperacoes; i++){
-            String comando = sc.next();// leio a sigla
+            String comando = sc.next();
 
-            if(comando.compareTo("II") == 0){
-                int id = Util.paraInt(sc.next());
-                lista.inserirInicio(buscarPorId(col, id));
-
-            }else if(comando.compareTo("I*") == 0){
-                int pos = Util.paraInt(sc.next());// leio a posicao
+            if(comando.compareTo("I") == 0){// comando inserir
                 int id = Util.paraInt(sc.next());// leio o id
-                lista.inserir(buscarPorId(col, id),pos);
-
-            }else if(comando.compareTo("IF") == 0){
-                int id = Util.paraInt(sc.next());// leio o id e transformo para int
-                lista.inserirFim(buscarPorId(col, id));// insiro no fim
-
-            }else if(comando.compareTo("RI") == 0){
-                Restaurante rem = lista.removerInicio();
-                System.out.println("(R)" + rem.getNome());//remocao tem q sair assim
-
-            }else if(comando.compareTo("R*") == 0){
-                int pos = Util.paraInt(sc.next());// leio a posicao e transformo em int
-                Restaurante rem = lista.remover(pos);// guardo o restaurante removido
-                System.out.println("(R)" + rem.getNome());// imprimo
-
-            }else if(comando.compareTo("RF") == 0){
-                Restaurante rem = lista.removerFim();// pego o restaurante e removo no fim
-                System.out.println("(R)" + rem.getNome());// imprimo
+                fila.inserir(buscarPorId(col, id));// insiro depois de buscar
+            } else if(comando.compareTo("R") == 0){
+                fila.remover();// chamo esse remover pq implementei o print ja nele
             }
         }
         sc.close();
 
-        lista.mostrar();// imprimo lista resultante
+        fila.mostrar();// mostro a fila resultante
     }
 }
