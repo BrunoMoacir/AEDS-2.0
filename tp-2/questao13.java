@@ -279,6 +279,47 @@ class Restaurante {
     }
 }
 
+// COLECAO RESTAURANTES
+class ColecaoRestaurantes {
+    private int n;// contador de restaurantes
+    private Restaurante[] lista;
+
+    public ColecaoRestaurantes() {// construtor
+        n = 0;
+        lista = new Restaurante[1000];// coloquei limite alto, qqr coisa melhoro dps
+    }
+
+    public int getTamanho() {
+        return n;
+    }
+
+    public Restaurante[] getRestaurantes() {
+        return lista;
+    }
+
+    public void lerCsv(String path) throws Exception {
+        Scanner sc = new Scanner(new File(path));
+
+        if (sc.hasNextLine())
+            sc.nextLine();// pulo o cabecalho da primeira linha
+
+        while (sc.hasNextLine()) {
+            String linha = sc.nextLine();
+            if (linha.length() > 0) {
+                String limpa = "";// limpeza para tirar o \r se preciso (enter)
+                for (int i = 0; i < linha.length(); i++) {
+                    if (linha.charAt(i) != '\r') {
+                        limpa += linha.charAt(i);
+                    }
+                }
+                lista[n++] = Restaurante.parseRestaurante(limpa);// salvo o restaurante no espaco atual e avanco o
+                                                             // ponteiro
+            }
+        }
+        sc.close();
+    }
+}
+
 class Fila{
     private Restaurante[] array;
     private int primeiro,ultimo;
@@ -346,7 +387,7 @@ class Fila{
 
 public class questao13{
     public static Restaurante buscarPorId(ColecaoRestaurantes col, int id){
-        for(int i = 0; col.getTamanho(); i++){
+        for(int i = 0; i < col.getTamanho(); i++){
             if(col.getRestaurantes()[i].getId() == id){
                 return col.getRestaurantes()[i];
             }
