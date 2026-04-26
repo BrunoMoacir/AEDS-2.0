@@ -253,79 +253,69 @@ void ler_csv_colecao(Colecao_Restaurantes* colecao, char* path) {
 void counting_sort(Restaurante** array, int n) {
     if (n <= 1) return;
 
-    // 1. Acha a maior capacidade para saber o tamanho exato do array de contagem 
+    // acho a maior capacidade p saber o tamanho do array de contagem
     int maior = array[0]->capacidade;
     for (int i = 1; i < n; i++) {
-        comparacoes++; // Conta a comparação para achar o maior elemento
+        comparacoes++; // conto comparacao p achar o maior elemento
         if (array[i]->capacidade > maior) {
             maior = array[i]->capacidade;
         }
     }
 
-    // 2. Cria o array de contagem e zera todas as posições
-    // O tamanho é (maior + 1) pois as capacidades começam do 0 e vão até o 'maior'
+    // crio array de contagem e zero todas posica
     int* count = (int*)malloc((maior + 1) * sizeof(int));
     for (int i = 0; i <= maior; i++) {
         count[i] = 0;
     }
 
-    // 3. Conta a frequência de cada capacidade
-    // Ex: Se achou capacidade 100, soma +1 na gaveta 100
+    // conto a freq de cada capacidade
+    // se achei 100n somo +1 na parte 100
     for (int i = 0; i < n; i++) {
         count[array[i]->capacidade]++;
     }
 
-    // 4. Transforma o array de contagem em posições (Soma de Prefixos)
-    // Isso diz exatamente em qual índice cada elemento deve cair no array ordenado
+    // transformo o array de contagem em posicao(somo prefixos)
+    // consigo saber qual incide cada elemento deve cair no arr ordenado
     for (int i = 1; i <= maior; i++) {
         count[i] += count[i - 1];
     }
 
-    // 5. Cria um array temporário para receber os elementos na ordem certa
+    // crio o array temp para receber os elementos na ordem certa
     Restaurante** ordenado = (Restaurante**)malloc(n * sizeof(Restaurante*));
 
-    // 6. DISTRIBUIÇÃO (O truque da Estabilidade)
-    // Rodamos do último elemento (n-1) para o primeiro (0). 
-    // Assim, se dois restaurantes têm a mesma capacidade, o que estava no fim do array original 
-    // vai para o fim do array ordenado, mantendo o desempate perfeito!
+    // rodo do ultimo elemento (n-1) p primeiro(0)
+    // se os dois restaurantes tiverem a msm capacidade, o que tava no fim do original vai pro fim do ordenado, desempatando certo
     for (int i = n - 1; i >= 0; i--) {
         int cap = array[i]->capacidade;
-        int pos = count[cap] - 1; // Pega a posição correta que o algoritmo calculou
+        int pos = count[cap] - 1; // pego a posicao correta que o algoritmo calculou
         
-        ordenado[pos] = array[i]; // Coloca o restaurante na posição
-        count[cap]--; // Diminui o contador para o próximo elemento igual cair uma casa antes
+        ordenado[pos] = array[i]; // coloco o restaurante na posicao
+        count[cap]--; // diminuo o contador para o proximo elemento igual cair uma casa antes
         
-        movimentacoes++; // Conta a movimentação para o array auxiliar
+        movimentacoes++; // contabilizo as movimentacoes
     }
 
-    // 7. Copia o array já ordenado de volta para o array original
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) {// copio o array ordenado de volta p original
         array[i] = ordenado[i];
-        movimentacoes++; // Conta a movimentação de volta
+        movimentacoes++; // contabilizo movimentacao de volta
     }
-
-    // Boa prática em C: limpar a memória temporária que usamos
+    // limpo a memoria
     free(count);
     free(ordenado);
 }
 
-// ==========================================================================
-// 5. MAIN (O Maestro)
-// ==========================================================================
 int main() {
     Colecao_Restaurantes col;
     col.tamanho = 0;
     col.restaurantes = (Restaurante**)malloc(1000 * sizeof(Restaurante*));
     
-    // Lê os dados
     ler_csv_colecao(&col, "/tmp/restaurantes.csv");
 
     Restaurante* array[1000];
     int n = 0;
     char idBusca[50];
     
-    // Lê os IDs da entrada até o -1
-    while (scanf("%s", idBusca) == 1) {
+    while (scanf("%s", idBusca) == 1) {// leio os ids ate o -1
         if (comparar_strings(idBusca, "-1") == 0) {
             break;
         }
@@ -339,24 +329,20 @@ int main() {
         }
     }
 
-    // Cronômetro LIGA!
-    clock_t inicioTempo = clock();
+    clock_t inicioTempo = clock();// inicio o tempo
 
-    // Chama o Counting Sort
-    counting_sort(array, n);
+    counting_sort(array, n);// chamo o counting sort
 
-    // Cronômetro DESLIGA!
-    clock_t fimTempo = clock();
+    clock_t fimTempo = clock();// paro o tempo
     double tempoTotal = ((double)(fimTempo - inicioTempo)) / CLOCKS_PER_SEC * 1000.0;
 
-    // Imprime os restaurantes ordenados
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) {// imprimo os restaurantes ordenados
         char saida[1000];
         formatar_restaurante(array[i], saida);
         printf("%s\n", saida);
     }
 
-    // Gera o arquivo de log do Counting Sort
+    // arquivo log
     FILE* log = fopen("885492_countingsort.txt", "w");
     if (log) {
         fprintf(log, "885492\t%d\t%d\t%.0f\n", comparacoes, movimentacoes, tempoTotal);
