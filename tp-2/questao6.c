@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h> 
 #include <stdbool.h> 
+#include <time.h>
 
 typedef struct {
     int ano, mes, dia;
@@ -31,6 +32,10 @@ typedef struct {
     int tamanho; // contador de restaurantes
     Restaurante** restaurantes; // array de ponteiros restaurantes
 } Colecao_Restaurantes;
+
+// variaveis global
+int comparacoes = 0;
+int movimentacoes = 0;
 
 int tamanho_string(const char* s) {// funcao para contar letras
     int i = 0;
@@ -225,7 +230,6 @@ void formatar_restaurante(Restaurante* r, char* buffer) {
         h_ab, h_fe, d_ab, status_aberto);
 }
 
-
 void ler_csv_colecao(Colecao_Restaurantes* colecao, char* path) {
     FILE* file = fopen(path, "r"); // r-> read arquivo
     
@@ -246,37 +250,100 @@ void ler_csv_colecao(Colecao_Restaurantes* colecao, char* path) {
     fclose(file);
 }
 
+void ordenacao_selecao(Restaurante** array, int n) {
+    for (int i = 0; i < (n - 1); i++) {
+        int menor = i;
+        for (int j = (i + 1); j < n; j++) {
+            // se o nome na posicao j for menor que o atual menor
+            if (comparar_strings(array[j]->nome, array[menor]->nome) < 0) {
+                menor = j;
+            }
+        }
+        // faco o swap
+        Restaurante* temp = array[i];
+        array[i] = array[menor];
+        array[menor] = temp;
+    }
+}
+
+bool pesquisa_binaria(Restaurante** array, int n, char* nomeBusca) {
+    int esq = 0;
+    int dir = n - 1;
+
+    while (esq <= dir) {
+        int meio = (esq + dir) / 2;
+        
+        int cmp = comparar_strings(array[meio]->nome, nomeBusca);
+        
+        comparacoes++; // 1 comparacao
+        if (cmp == 0) {
+            return true; // achei
+        } 
+        
+        comparacoes++; // 2.a comparacao ->maior/menos
+        if (cmp < 0) {
+            esq = meio + 1; // o nome do meio e menos alfabeticamente, busco na direita
+        } else {
+            dir = meio - 1; // o nome do meio e maior alfabeticamente, busco na esquerda
+        }
+    }
+    return false; // n achou
+}
 int main() {
     Colecao_Restaurantes col;
     col.tamanho = 0;
-    
-    // aloco 1000 de garantia
     col.restaurantes = (Restaurante**)malloc(1000 * sizeof(Restaurante*));
     
     ler_csv_colecao(&col, "/tmp/restaurantes.csv");
 
+    Restaurante* array[1000];
+    int n = 0;
     char idBusca[50];
     
-    while(scanf("%s", idBusca) == 1) {
-        
-        //verifico se o -1 foi digitado
-        if(comparar_strings(idBusca, "-1") == 0) {
+    while (scanf("%s", idBusca) == 1) {// leio os ids
+        if (comparar_strings(idBusca, "-1") == 0) {// se for diferente de -1 continuo
             break;
         }
 
-        int id = string_para_int(idBusca); // converto de texto p numero
-
-        // busca sequencial comum, varro todo o array
-        for(int i = 0; i < col.tamanho; i++) {
-            if(col.restaurantes[i]->id == id) {
-                
-                char saida[1000]; // crio espaco vazio
-                formatar_restaurante(col.restaurantes[i], saida); // funcao preenche o campo
-                printf("%s\n", saida); // imprimo o preenchido
-                
-                break; // saio do for
+        int id = string_para_int(idBusca);
+        for (int i = 0; i < col.tamanho; i++) {
+            if (col.restaurantes[i]->id == id) {
+                array[n++] = col.restaurantes[i];
+                break;
             }
         }
+    }
+
+    // ordeno antes da pesquisa
+    ordenacao_selecao(array, n);
+
+    // comeco a marcar o tempo
+    clock_t inicioTempo = clock();
+
+    char nomeBusca[200];
+    
+    while (scanf(" %[^\r\n]", nomeBusca) == 1) {// ignoro os espacos e leio ate quebra de linha
+        
+        if (comparar_strings(nomeBusca, "FIM") == 0) {
+            break;
+        }
+
+        // chamo a pesquisa binaria
+        if (pesquisa_binaria(array, n, nomeBusca)) {
+            printf("SIM\n");
+        } else {
+            printf("NAO\n");
+        }
+    }
+
+    clock_t fimTempo = clock();// paro o tempo
+    double tempoTotal = ((double)(fimTempo - inicioTempo)) / CLOCKS_PER_SEC * 1000.0;
+
+    // arquivo de log
+    FILE* log = fopen("885492_binaria.txt", "w");// write
+    if (log) {
+        fprintf(log, "885492\t%d\t%.0f\n", comparacoes, tempoTotal);
+        fclose(log);
     }
 
     return 0;

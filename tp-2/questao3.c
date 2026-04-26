@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h> 
 #include <stdbool.h> 
+#include <time.h>
 
 typedef struct {
     int ano, mes, dia;
@@ -31,6 +32,10 @@ typedef struct {
     int tamanho; // contador de restaurantes
     Restaurante** restaurantes; // array de ponteiros restaurantes
 } Colecao_Restaurantes;
+
+// variaveis global
+int comparacoes = 0;
+int movimentacoes = 0;
 
 int tamanho_string(const char* s) {// funcao para contar letras
     int i = 0;
@@ -216,7 +221,7 @@ void formatar_restaurante(Restaurante* r, char* buffer) {
     if(r->aberto == true){
         status_aberto = "true";
     }else{
-        status_aberto = "false;"
+        status_aberto = "false";
     }
 
     // formatacao final
@@ -243,4 +248,81 @@ void ler_csv_colecao(Colecao_Restaurantes* colecao, char* path) {
         }
     }
     fclose(file);
+}
+
+void ordenacao_selecao(Restaurante** array, int n) {
+    for (int i = 0; i < (n - 1); i++) {
+        int menor = i;
+        for (int j = (i + 1); j < n; j++) {
+            
+            comparacoes++; // conto a comparacao do if abaixo
+            
+            // se o nome na posicao j for menor que o atual menor
+            if (comparar_strings(array[j]->nome, array[menor]->nome) < 0) {
+                menor = j;
+            }
+        }
+        
+        // faco o swap dos ponteiros
+        Restaurante* temp = array[i];
+        array[i] = array[menor];
+        array[menor] = temp;
+        
+        movimentacoes += 3; // 3 movimentacoes por swap
+    }
+}
+
+int main() {
+    Colecao_Restaurantes col;
+    col.tamanho = 0;
+    col.restaurantes = (Restaurante**)malloc(1000 * sizeof(Restaurante*));
+    
+    ler_csv_colecao(&col, "/tmp/restaurantes.csv");
+
+    Restaurante* array[1000];
+    int n = 0;
+    char idBusca[50];
+    
+    // leio ate achar -1
+    while(scanf("%s", idBusca) == 1) {
+        if(comparar_strings(idBusca, "-1") == 0) {
+            break;
+        }
+
+        int id = string_para_int(idBusca);
+
+        for(int i = 0; i < col.tamanho; i++) {
+            if(col.restaurantes[i]->id == id) {
+                // guardo o ponteiro do restaurante achado no array
+                array[n++] = col.restaurantes[i];
+                break;
+            }
+        }
+    }
+
+    // comeco a contar o tempo
+    clock_t inicioTempo = clock();
+
+    // ordeno passando o array menor
+    ordenacao_selecao(array, n);
+
+    // paro a contagem
+    clock_t fimTempo = clock();
+    double tempoTotal = ((double)(fimTempo - inicioTempo)) / CLOCKS_PER_SEC * 1000.0;
+
+    // imprimo os resultados ordenados
+    for(int i = 0; i < n; i++) {
+        char saida[1000];
+        formatar_restaurante(array[i], saida);
+        printf("%s\n", saida);
+    }
+
+    // arquivo de log
+    FILE* log = fopen("885492_selecao.txt", "w");
+    if(log) {
+        fprintf(log, "885492\t%d\t%d\t%.0f\n", comparacoes, movimentacoes, tempoTotal);
+        fclose(log);
+    }
+
+    return 0;
 }
