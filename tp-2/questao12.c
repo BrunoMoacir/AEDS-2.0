@@ -280,7 +280,7 @@ Restaurante* desempilhar(Pilha* p) {
     Restaurante* resp = p->array[p->topo]; // pego o elemento
     
     // imprimo nome do removido
-    printf("(R) %s\n", resp->nome);
+    printf("(R)%s\n", resp->nome);
     
     return resp;
 }
