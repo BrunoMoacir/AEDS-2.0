@@ -88,9 +88,10 @@ double string_para_double(const char* str){
 
     if(str[i] == '.'){// se achei um ponto pego a parte decimal
         i ++;
-        while(str[i] != '0' && str[i] >= '0' && str[i] <='9'){
+        while(str[i] != '\0' && str[i] >= '0' && str[i] <='9'){
             fator_decimal /= 10.0;// 0.1 0.01 
             resultado = resultado + (str[i] - '0') * fator_decimal;
+            i++;// incremento
         }
     }
     return resultado;
