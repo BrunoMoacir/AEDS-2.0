@@ -70,10 +70,10 @@ int string_para_int(const char* str){
     }
 
     while(str[i] != '\0' && str[i] >= '0' && str[i] <= '9'){//vou multiplicando por 10 para empurrar as casas decimal e soma o novo numero
-        resultado = (resultado * 10) + (str[i] = '0');
+        resultado = (resultado * 10) + (str[i] - '0');
         i++;
     }
-    return resultado;
+    return resultado * sinal;
 }
 
 double string_para_double(const char* str){
