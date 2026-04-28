@@ -48,3 +48,20 @@ public void inserirFim(int x){
     primeiro->ant = nova;// primeiro aponta de volta para a nova
 }
 
+// contar os numeros pares na matriz flexivel
+public int contaPares(){
+    int count = 0;
+    CelulaLinhaAtual = inicio;
+
+    for(int i = 0; i < linha.; i++){
+        Celula colunaAtual = linha;
+        for(int j = 0;j < coluna; j++){
+            if(i.elemento % 2 == 0){
+                count ++;
+            }
+            colunaAtual = colunaAtual.dir;
+        }
+        linhaAtual = linhaAtual.inf;
+    }
+    return count;
+}
