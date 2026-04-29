@@ -250,3 +250,19 @@ public int contaPares(){
     return count;
 }
 
+// lista de filas -> contar quantos elementos tem no total
+public int contaElementos(){
+    int count = 0;
+
+    for(CelulaLista i = inicio; i != null; i = i.prox){
+
+        // cada NO tem uma fila
+        CelulaFila f = i.primeiro;// inicio da fila
+
+        while(f != null){
+            count ++;
+            f = f.prox;
+        }
+    }
+    return total;
+}
