@@ -65,3 +65,65 @@ public int contaPares(){
     }
     return count;
 }
+
+// na lista dupla, remover todos os elementos negativos (primeiro,ultimo,prox,ant)
+public void removeNegativos(){
+    CelulaDupla i = primeiro.prox;// pego o primeiro elemento depois da cabeça
+
+    while(i != null){// varro ela toda
+        if(i.elemento < 0){// s o elemento for menor que 0
+            i.ant.prox = i.prox;
+
+            if(i.prox == null){
+                i.prox.ant = i.ant;
+            }else{
+                ultimo = i.ant;// se era o ultimo
+            }
+        }
+        i = i.prox;
+    }
+}
+
+// na matriz flexivel, somar apenas as bordas(inicio,inf,sup,dir,esq)
+public int somaBorda(){
+    int soma = 0;
+
+    Celula linha = inicio;
+    int i = 0;
+    while(linha != null){
+        Celula col = linha;
+        int j = 0;
+
+        while(col != null){
+            if(i == 0 || i == this.linha - 1|| j == 0 || j == this.linha - 1){
+                soma+= col.elemento;
+            }
+            col = col.dir;
+            j++;
+        }
+        linha = linha.inf;
+        i++;
+    }
+    return soma;
+}
+
+// na matriz flexivel, encontrar o maior elemento
+public int maiorElemento(){
+    Celula linha = inicio;
+
+    int maior = inicio.elemento;
+
+    while(linha != null){
+
+        Celula col = linha;
+
+        while(col != null){
+            if(col.elemento > maior){
+                maior = col.elemento;
+            }
+            col = col.dir;
+        }
+        linha = linha.inf;
+    }
+    return maior;
+}
