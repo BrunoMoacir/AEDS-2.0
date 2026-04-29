@@ -127,3 +127,28 @@ public int maiorElemento(){
     }
     return maior;
 }
+
+// lista de matrizes, somo todos os elementos de todas as matrizes-> lista(primeiro,ultimo,prox) matriz(inicio,elemento,esq,inf,dir,sup)
+public int somaMatrizes(){
+    int soma = 0 ;
+
+    for(CelulaLista i = inicio; i != null; i = i.prox){
+
+        Matriz m = i.matriz;
+
+        Celula linha = m.inicio;
+
+        while(linha != null){
+            Celula col = linha;
+
+            while(col != null){
+                soma += col.elemento;
+                col = col.dir;
+            }
+            linha = linha.inf;
+        }
+    }
+    return soma;
+}
+
+// lista
