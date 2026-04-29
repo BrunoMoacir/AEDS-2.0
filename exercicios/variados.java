@@ -228,3 +228,25 @@ public boolean existe(int x){
     }
     return presente;
 }
+
+// lista de matrizes -> contar quantos pares tem
+public int contaPares(){
+    int count = 0;
+    for(CelulaLista i = inicio; i != null; i = i.prox){
+        Matriz m = i.matriz;
+
+        Celula linha = m.inicio;
+        while(linha != null){
+            Celula col = linha;
+            while(col != null){
+                if(col.elemento % 2 == 0){
+                    count ++;
+                }
+                col = col.dir;
+            }
+            linha = linha.inf;
+        }
+    }
+    return count;
+}
+
