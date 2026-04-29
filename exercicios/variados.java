@@ -151,4 +151,33 @@ public int somaMatrizes(){
     return soma;
 }
 
-// lista
+// lista de pilhas -> contar quantas pilhas estao vazias
+public int contVazias(){
+    int count = 0;
+
+    for(Celula i = inicio; i != null; i = i.prox){
+        if(i.topo == null){
+            count ++;
+        }
+}
+
+//lista de pilhas -> contar quantas pilhas tem mais de 3 elementos
+public int cont3Elementos(){
+    int resp = 0;
+
+    for(Celula i = inicio; i != null; i = i.prox){
+        int count = 0;
+
+        CelulaPilha p = i.topo;
+
+        while(p != null){
+            count ++;
+            p = p.prox;
+        }
+        if(count > 3){
+            resp ++;
+        }
+    }
+    return resp;
+}
+
