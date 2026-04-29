@@ -181,3 +181,50 @@ public int cont3Elementos(){
     return resp;
 }
 
+// lista dupla -> somas elementos cujos valores estejam entre 10 e 50(primeiro,ultimo,prox,ant)
+public int somaElementos(){
+    int soma = 0;
+
+    for(CelulaDupla i = inicio.prox; i != null; i = i.prox){
+        if(i.elemento > 9 && i.elemento < 51){
+            soma += i.elemento;
+        }
+    }
+    return soma;
+}
+
+// matriz flexivel -> somar apenas elementos impares(inicio,dir,esq,inf,sup)
+public int somaImpares(){
+    int soma = 0;
+
+    Celula linha = inicio;
+    while(linha != null){
+        Celula col = linha;
+        while(col != null){
+            if(col.elemento % 2 != 0){
+                soma += col.elemento;
+            }
+            col = col.dir;
+        }
+        linha = linha.inf;
+    }
+    return soma;
+}
+
+// matriz flexivel -> verificar se existe um numero x (busca)
+public boolean existe(int x){
+    boolean presente = falso;
+
+    Celula linha = inicio;
+    while(linha != null){
+        Celula col = linha;
+        while(col != null){
+            if(col.elemento == x){
+                presente = true;
+            }
+            col = col.dir;
+        }
+        linha = linha.inf;
+    }
+    return presente;
+}
