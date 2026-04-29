@@ -266,3 +266,26 @@ public int contaElementos(){
     }
     return total;
 }
+
+// lista de matrizes -> somar apenas as diagonais principais
+public int somaDiagonal(){
+    int soma = 0;
+
+    for(int CelulaLista i = inicio; i != null; i = i.prox){
+
+        Matriz m = i.matriz;
+
+        Celula c = m.inicio;
+
+        while(c != null){
+            soma += c.elemento;
+
+            c = c.inf;// ando com ele 1 para baixo
+            if(c != null){// se ele nao for null apos andar p baixo eu ando p direita, mantendo o principio da diagonal principal
+                c = c.dir;
+            }
+        }
+    }
+    return soma;
+}
+
