@@ -289,3 +289,18 @@ public int somaDiagonal(){
     return soma;
 }
 
+// ----- ARVORE BINARIA DE PESQUISA-----\\ 
+// contar os nós da arvore
+public int contarNos(){
+    return contarNos(raiz);
+}
+public int contarNos(No i){
+    if(i == null){
+        return 0;
+    }
+
+    return 1 + contarNos(i.esq) + contarNos(i.dir);// eu conto esse no + esquerda + direita
+}
+
+
+
