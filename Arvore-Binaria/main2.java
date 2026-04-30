@@ -156,3 +156,25 @@ public int contaNo(No i){
     
     return qtNegativo + contaNo(i.esq) + contaNo(i.dir);
 }
+
+// arvore de listas -> retornar a quantidade de elementos que tem em todas as arvores
+public int contaElementos(){
+    return contaElementos(raiz); 
+}
+public int contaElementos(No i){
+    if(i == null){
+        return 0;
+    }
+
+    int count = 0;
+
+    CelulaLista l = i.primeiro;
+    while(l != null){
+        count ++;
+        l = l.prox;
+    }
+
+    return count + contaElementos(i.esq) + contaElementos(i.dir);
+}
+
+//
