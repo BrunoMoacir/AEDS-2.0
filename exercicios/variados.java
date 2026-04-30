@@ -388,4 +388,47 @@ publuc int maiorMedia(){
     return elementoMaior;
 }
 
-// 
+// lista de matrizes -> quantas possuem pelo menos 1 numero negativo
+public int contaNegativo(){
+    int count = 0;
+
+    for(CelulaLista i = inicio; i != null; i = i.prox){
+        Matriz m = i.matriz;
+
+        boolean temNegativo = false;
+
+        Celula linha = m.inicio;
+        while(linha != null){
+            Celula col = linha;
+            while(col != null){
+                if(col.elemento < 0){
+                    temNegativo = true;
+                    break;
+                }
+                col = col.dir;
+            }
+            linha = linha.inf;
+        }
+        if(temNegativo){
+            count ++;
+        }
+    }
+    return count;
+}
+
+// verificar se 2 arvores sao espelho uma da outra
+public boolean isEspelho(No a, No b){
+    if(a == null && b == null){
+        return true;
+    }
+
+    if(a == null || b == null){
+        return false;
+    }
+
+    if(a.elemento != b.elemento){
+        return false;
+    }
+
+    return isEspelho(a.esq,b.dir) %% isEspelho(a.dir,b.esq);
+}
