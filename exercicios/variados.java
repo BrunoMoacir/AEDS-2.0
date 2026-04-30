@@ -320,3 +320,72 @@ public int altura(No i){
     }
 
 }
+
+// lista de filas -> retornar quantas filas possuem pelo menos 1 elemento impar
+public int contaImpar(){
+    int count = 0;
+
+    for(CelulaLista i = primeiro; i != null; i = i.prox){
+        CelulaFila f = i.topo;
+
+        boolean impar = false;
+
+        while(f != null){
+            if(f.elemento % 2 != 0){
+                impar = true;
+                break;
+            }
+            f = f.prox;
+        }
+        if(impar){
+            return count ++;
+        }
+    }
+    return count;
+}
+
+// lista dupla-> verificar se a lista esta em ordem crescente
+public boolean crescente(){
+    for(Celula i = primeiro; i != null && i.prox != null; i = i.prox){
+        if(i.elemento > i.prox.elemento){
+            return false;
+        }
+    }
+    return true;
+}
+
+// matriz flexivel -> contar quantos elementos sao maiores que a media da matriz
+publuc int maiorMedia(){
+    int count = 0;
+    int soma = 0;
+
+    int elementoMaior = 0;
+
+    Celula linha = inicio;
+    while(linha != null){
+        Celula col = linha;
+        while(col != null){
+            soma += col.elemento;
+            count ++;
+            col = col.dir
+        }
+        linha = linha.inf;
+    }
+
+    int media = soma / count;
+
+    linha = inicio;
+    while(linha != null){
+        col = linha;
+        while(col != null){
+            if(col.elemento > media){
+                elementoMaior ++;
+            }
+            col = col.dir;
+        }
+        linha = linha.inf;
+    }
+    return elementoMaior;
+}
+
+// 
