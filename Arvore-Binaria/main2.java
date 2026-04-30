@@ -203,4 +203,27 @@ public int contaNo(No i){
     return pilhaPar + contaNo(i.esq) + contaNo(i.dir);
 }
 
-// arvo
+// ver se em algum no da lista tem o valor x
+public boolean existe(int x){
+    return boolean existe(x, raiz);
+}
+public boolean existe(int x, No i){
+    if(i == null){
+        return false;
+    }
+
+    for(CelulaLista j = primeiro; j != null; j = j.prox){
+        if(j.elemento == x){
+            return true;
+        }
+    }
+
+    if(existe(x, i.esq)){
+        return true;
+    }
+    if(existe(x, i.dir)){
+        return true;
+    }
+    
+    return false;
+}
