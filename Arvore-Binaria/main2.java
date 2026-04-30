@@ -1,0 +1,158 @@
+public int contaElementos(int x){
+    return contaElementos(x,raiz);
+}
+
+public int contaElementos(int x, No i){
+    int soma = 0;
+    if(i == null){
+        return 0;
+    }else if(i.elemento == x){
+        CelulaPilha p = i.topo;
+
+        while(p != null){
+            soma += p.elemento;
+
+            p = p.prox;
+        }
+        return soma;
+    }else if(x < i.elemento){
+        return contaElementos(x,i.esq);
+    }else{
+        return contaElementos(x, i.dir);
+    }
+}
+
+// arvores de pilhas -> somar todos os elementos de todas as pilhas
+public int somaElementos(){
+    return somaElementos(raiz);
+}
+public int somaElementos(No i){
+    if(i == null){
+        return 0;
+    }
+
+    int soma = 0;
+
+    CelulaPilha p = i.topo;// percorro a pilha do no atual
+    while(p != null){
+        soma += p.elemento;
+        p = p.prox;
+    }
+
+    return soma + somaElementos(i.esq) + somaElementos(i.dir);//somo esquerda + direita
+}
+
+// contar multiplos de 3 nas pilhas
+public int contarMultiplos(){
+    return contarMultiplos(raiz);
+}
+public int contarMultiplos(No i){
+    if(i == null){
+        return 0;
+    }
+
+    int count = 0;
+
+    CelulaPilha p = i.topo;
+    while(p != null){
+        if(p.elemento % 3 == 0){
+            count ++;
+        }
+        p = p.prox;
+    }
+
+    return count + contarMultiplos(i.esq) + contarMultiplos(i.dir);
+}
+
+// retornar o tamanho da MAIOR pilha da arvore
+public int maiorPilha(){
+    return maiorPilha(raiz);
+}
+public int maiorPilha(No i){
+    if(i == null){
+        return 0;
+    }
+
+    int tamanho = 0;
+
+    CelulaPilha p = i.topo;
+
+    while(p != null){
+        tamanho ++;
+        p = p.prox;
+    }// calculo tamanho da pilha
+
+    int esq = maiorPilha(i.esq);// faco o mesmo para esquerda
+    int dir = maiorPilha(i.dir);// faco o mesmo para direita
+
+    if(esq > maior){
+        maior = esq;
+    }
+    if(dir > maior){
+        maior = dir;
+    }
+    return maior;// retorno o maior
+}
+
+// arvore de listas -> contar quantas tem tamanho par
+public int contaPar(){
+    return contaPar(raiz);
+}
+public int contaPar(No i){
+    if(i == null){
+        return 0;
+    }
+
+    int count = 0;
+
+    int tamanho = 0;
+
+    for(Celula j = i.primeiro; j != null; j = j.prox){
+        tamanho ++;
+    }
+
+    if(tamanho % 2 == 0){
+        count = 1;
+    }
+
+    return count + contaPar(i.esq) + contaPar(i.dir);
+}
+
+// arvore de filas -> somar os elementos impares de todas as filas
+public int somaImpar(){
+    return somaImpar(raiz);
+}
+public int somaImpar(No i){
+    if(i == null){
+        return 0;
+    }
+
+    int total = 0;
+
+    for(Celula j = i.primeiro; j != null; j = j.prox){
+        if(j.elemento % 2 != 0){
+            total += j.elemento;
+        }
+    }
+    return total + somaImpar(i.esq) + somaImpar(i.dir);
+}
+
+// arvore de pilhas -> quantos nos possuem pilhas com pelo menos 1 elemento negativo
+public int contaNo(){
+    return contaNo(raiz);
+}
+public int contaNo(No i){
+    if(i == null){
+        return 0;
+    }
+
+    int qtNegativo = 0;
+
+    for(Celula j = i.topo; j != null; j = j.prox){
+        if(j.elemento < 0){
+            qtNegativo = 1;
+        }
+    }
+    
+    return qtNegativo + contaNo(i.esq) + contaNo(i.dir);
+}
