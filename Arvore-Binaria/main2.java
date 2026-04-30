@@ -177,4 +177,30 @@ public int contaElementos(No i){
     return count + contaElementos(i.esq) + contaElementos(i.dir);
 }
 
-//
+//arvore de pilhas -> retorno quantos nos possuem pilha com numero PAR de elementos
+public int contaNo(){
+    return contaNo(raiz);
+}
+public int contaNo(No i){
+    if(i == null){
+        return 0;
+    }
+
+    int contador = 0;
+
+    int pilhaPar = 0;
+
+    CelulaPilha p = i.topo;
+    while(p != null){
+        contador ++;
+        p = p.prox;
+    }
+
+    if(contador % 2 == 0 && contador != 0){// tiro pilha vazia
+        pilhaPar = 1;
+    }
+
+    return pilhaPar + contaNo(i.esq) + contaNo(i.dir);
+}
+
+// arvo
