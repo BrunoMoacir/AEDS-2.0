@@ -302,5 +302,21 @@ public int contarNos(No i){
     return 1 + contarNos(i.esq) + contarNos(i.dir);// eu conto esse no + esquerda + direita
 }
 
+// ALTURA DA ARVORE
+public int altura(){
+    return altura(raiz);
+}
+public int altura(No i){
+    if(i == null){
+        return -1;// base
+    }
+    int esq = altura(i.esq);
+    int dir = altura(i.dir);
 
+    if(esq > dir){
+        return 1 + esq;
+    }else{
+        return 1 + dir;
+    }
 
+}
