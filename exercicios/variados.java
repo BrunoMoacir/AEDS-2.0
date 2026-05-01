@@ -452,4 +452,27 @@ public void insereX(int x){
     }
 }
 
-// pilha flex
+// pilha flex -> retornar quantos elementos sao maiores que a media -> prox, topo, elemento
+public int maiores(){
+    int count = 0;
+    int soma = 0;
+
+    for(Celula i = topo; i != null; i = i.prox){
+        soma += i.elemento;
+        
+        count ++
+    }
+
+    int media = 0;
+    media = soma / count;
+
+    count = 0;
+
+    for(Celula j = topo; j != null; i = i.prox){
+        if(i.elemento > media){
+            count ++;
+        }
+    }
+    return count;
+}
+
