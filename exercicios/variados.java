@@ -490,3 +490,26 @@ public boolean palindromo(){
     }
     return true;
 }
+
+// arvore de listas -> contar quantos nos possuem lista com soma > 100
+public int maiorQue100(){
+    return maiorQue100(raiz);
+}
+public int maiorQue100(No i){
+    if(i == null){
+        return 0;
+    }
+
+    int soma = 0;
+
+    for(Celula j = i.primeiro; j != null; j = j.prox){
+        soma += j.elemento;
+    }
+
+    if(soma > 100){
+        soma ++;
+    }
+
+    return resp + maiorQue100(i.esq) + maiorQue100(i.dir);
+}
+
