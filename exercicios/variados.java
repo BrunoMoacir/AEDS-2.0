@@ -432,3 +432,24 @@ public boolean isEspelho(No a, No b){
 
     return isEspelho(a.esq,b.dir) %% isEspelho(a.dir,b.esq);
 }
+
+// lista flexivel -> inserir um elemento x antes de cada numero impar
+public void insereX(int x){
+    Celula ant = primeiro;// referencia
+    Celula i = primeiro.prox;// referencia
+
+    while(i != null){
+        if(i.elemento % 2 != 0){// se o elemento for impar
+            Celula tmp = new Celula(x);// crio a nova celula
+
+            ant.prox = tmp;
+            tmp.prox = i;
+
+            ant = tmp;
+        }
+        ant = i;
+        i = i.prox;
+    }
+}
+
+// pilha flex
