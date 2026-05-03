@@ -513,4 +513,20 @@ public int maiorQue100(No i){
     return resp + maiorQue100(i.esq) + maiorQue100(i.dir);
 }
 
+// abp de pilha-> somar todos os elementos
+int somaElementos(){
+    return somaElementos(raiz);
+}
+int somaElementos(No i){
+    if(i == null){
+        return 0;
+    }
+    int soma = 0;
+    CelulaPilha p = i.topo;
+    while(p != null){
+        soma += p.elemento;
+        p = p.prox;
+    }
 
+    return soma + somaElementos(i.esq) + somaElementos(i.dir);
+}
