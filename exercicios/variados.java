@@ -544,3 +544,52 @@ public boolean palindromo(){
     }
     return true;
 }
+
+// lista de matriz -> somar diagonais principais matriz
+int somaDiagonal(){
+    int soma = 0;
+    for(Celula i = primeiro; i != null; i = i.prox){
+        Celula c = i.matriz.inicio;;
+        while(c != null){
+            soma += c.elemento;
+            c = c.inf;
+            if(c != null){
+                c = c.dir;
+            }
+        }        
+    }
+    return soma;
+}
+
+// Em uma árvore de listas que funciona como dicionário (nós guardam a letra inicial, listas guardam palavras em ordem alfabética), implemente void remover(String palavra) que remove a palavra da estrutura.
+public void remover(String palavra){
+
+}
+
+// lista de filas -> retornar quantas filas tem pelo menos 1 impar
+public int contaImpar(){
+    int count = 0;
+    for(CelulaLista i = inicio; i != null; i = i.prox){
+        CelulaFila f = i.primeiro;
+        while(f != null){
+            if(f.elemento % 2 != 0){
+                count = ++;
+                f = null;
+            }
+            f = f.prox;
+        }
+    }
+    return count;
+}
+
+public boolean isEspelho(Arvore outra) {
+    return isEspelho(this.raiz, outra.raiz);
+}
+private boolean isEspelho(No a, No b) {
+    if (a == null && b == null) return true;
+    if (a == null || b == null) return false;
+    if (a.elemento != b.elemento) return false;
+
+    // esq de A espelha dir de B, e dir de A espelha esq de B
+    return isEspelho(a.esq, b.dir) && isEspelho(a.dir, b.esq);
+}
