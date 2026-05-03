@@ -227,3 +227,41 @@ public boolean existe(int x, No i){
     
     return false;
 }
+
+//lista de pilhas -> retornar celula com maior pilha  lista(primeiro,ultimo,prox) pilha(topo,prox)
+public int maiorPilha(){
+    CelulaLista resp = inicio;
+    int maior = 0;
+    for(CelulaLista i = inicio.prox; i != null; i = i.prox){
+        int count = 0;
+        CelulaPilha p = i.topo;
+        while(p != null){
+            count ++;
+            p = p.prox;
+        }
+        if(count > maior){
+            maior = count;
+            resp = i;
+        }
+    }
+    return resp;
+}
+
+// no de lista com soma > 100 recursivamente
+public int maiorQue100(){
+    return maiorQue100(raiz);
+}
+public int maiorQue100(No i){
+    if(i == null){
+        return 0;
+    }
+    int soma = 0;
+    for(CelulaLista j = primeiro; j != null; j = j.prox){
+        soma += j.elemento;
+    }
+    int resp = 0;
+    if(soma > 100){
+        resp = 1;
+    }
+    return resp + maiorQue100(i.esq) + maiorQue100(i.dir);
+}
