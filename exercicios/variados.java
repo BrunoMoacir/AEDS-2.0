@@ -530,3 +530,17 @@ int somaElementos(No i){
 
     return soma + somaElementos(i.esq) + somaElementos(i.dir);
 }
+
+// palindromo na fila dupla sem cabeça(primeiro elemento e valido)
+public boolean palindromo(){
+    Celula i = primeiro;
+    Celula j = ultimo;
+    while(i != j){
+        if(i.elemento != j.elemento){
+            return false;
+        }
+        i = i.prox;
+        j = j.ant;
+    }
+    return true;
+}
