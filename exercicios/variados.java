@@ -593,3 +593,34 @@ private boolean isEspelho(No a, No b) {
     // esq de A espelha dir de B, e dir de A espelha esq de B
     return isEspelho(a.esq, b.dir) && isEspelho(a.dir, b.esq);
 }
+
+// arvore de listas -> cada no guarda a letra inicial e cada lista guarda palavras em ordem alfabetica
+public void inserir(String palavra){
+    char letra = palavra.chatAt(0);
+    raiz = inserir(palavra,letra,raiz);
+}
+public void inserir(String palavra, char letra, No i){
+    if(i == null){// crio o novo no e ja insiro na lista
+        No novo = new No (letra);
+        Celula c = new Celula(palavra);
+        novo.primeiro = novo.ultimo = c;
+        return novo;
+    }else if(letra < i.letra){
+        i.esq = inserir(palavra,letra,i.esq);
+    }else if(letra > i.letra){
+        i.dir = inserir(palavra,letra,i.dir);
+    }else{// no encontrado
+        Celula nova = new Celula(palavra);
+        Celula ant = null;
+        Celula j = i.primeiro;
+        while(j != null && j.palavra.compareTo(palavra) > 0){
+            ant = j;
+            j = j.prox;
+        }
+        nova.prox = j;
+        if(ant == null)i.primeiro = nova;
+        else ant.prox = nova;
+        if(nova.prox == null) i.ultimo = nova
+    }
+    return i;
+}

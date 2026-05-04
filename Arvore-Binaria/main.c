@@ -17,3 +17,15 @@ void removeColuna(Matriz *m){
     }
     m->colunas --;
 }
+
+// inserir no fim da lista dupla circular com cabeça
+void inserirFim(int x){
+    CelulaDupla *nova = novaCelulaDupla(x);
+    CelulaDupla *ultimo = primeiro->ant;
+
+    // ligo as 4 celulas
+    nova->prox = primeiro;// proxima da nova vira o primeiro
+    nova->ant = ultimo;// anterior da nova vira o ultimo
+    ultimo->prox = nova;// proximo do ultimo vira a nova
+    primeiro->ant = nova;// anterior do primeiro(ultimo) vira a nova
+}
