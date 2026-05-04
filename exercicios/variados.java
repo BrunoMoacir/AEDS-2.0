@@ -624,3 +624,22 @@ public void inserir(String palavra, char letra, No i){
     }
     return i;
 }
+
+// lista de pilhas -> contar quantas estao em ordem crescente
+public int contaCrescentes(){
+    int count = 0;
+    for(CelulaLista i = inicio; i != null; i = i.prox){
+        boolean crescente = true;
+        CelulaPilha p = i.topo;
+        while(p != null && p.prox != null){
+            if(p.elemento > p.prox.elemento){
+                crescente = false;
+                break;
+            }
+            p = p.prox;
+        }
+        if(crescente) count ++;
+    }
+    return count;
+}
+

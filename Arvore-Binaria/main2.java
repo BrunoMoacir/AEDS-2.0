@@ -265,3 +265,4 @@ public int maiorQue100(No i){
     }
     return resp + maiorQue100(i.esq) + maiorQue100(i.dir);
 }
+
