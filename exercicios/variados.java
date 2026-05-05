@@ -686,3 +686,5 @@ private int somaDiagonais(No i){
     return soma + somaDiagonais(i.esq) + somaDiagonais(i.dir);
 }
 
+
+
