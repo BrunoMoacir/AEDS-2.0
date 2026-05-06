@@ -643,3 +643,25 @@ public int contaCrescentes(){
     return count;
 }
 
+// arvore de listas -> procurar uma palavra -> cada no e uma letra
+public boolean buscar(String palavra){
+    return buscar(palavra, raiz);
+}
+private boolean buscar(String palavra, No i){
+    if(i == null){
+        return false;
+    }
+    char letra = palavra.charAt(i);
+    if(letra < i.letra){
+        return buscar(palavra, i.esq);
+    }else if(letra > i.letra){
+        return buscar(palavra,i.dir);
+    }
+    // passou por tudo = achei
+    for(Celula j = primeiro; j != null; j = j.prox){
+        if(j.palavra.equals(palavra)){
+            return true;
+        }
+    }
+    return false;
+}
