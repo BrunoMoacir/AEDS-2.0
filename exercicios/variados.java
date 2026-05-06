@@ -665,3 +665,24 @@ private boolean buscar(String palavra, No i){
     }
     return false;
 }
+
+// em uma ABP, somar todas as diagonais principais das matrizes dos nos
+public int somaDiagonais(){
+    return somaDiagonais(raiz);
+}
+private int somaDiagonais(No i){
+    if(i == null){
+        return 0;
+    }
+    int soma = 0;// ela vai zerar a cada iteracao
+    Celula m = i.matriz.inicio;
+    while(m != null){
+        soma += m.elemento;
+        m = m.inf;
+        if(m != null){
+            m = m.dir;
+        }
+    }
+    return soma + somaDiagonais(i.esq) + somaDiagonais(i.dir);
+}
+
