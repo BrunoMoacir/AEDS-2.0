@@ -837,3 +837,22 @@ public int somaTotal(No i){
     }
     return soma + somaTotal(i.esq) + somaTotal(i.dir);
 }
+
+// na ABP de pilhas verificar se um valor x aparece em qualquer posicao de qqr fila
+boolean existe(int x){
+    return existe(x,raiz);
+}
+public boolean existe(int x, No i){
+    if(i == null){
+        return false;
+    }
+    CelulaPilha p = i.topo;
+    while(p != null){
+        if(x == p.elemento){
+            return true;
+        }
+        p = p.prox;
+    }
+    
+    return existe(x,i.esq) || existe(x,i.dir);// busco nas subarvores
+}
