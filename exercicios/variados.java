@@ -679,7 +679,7 @@ private int somaDiagonais(No i){
     while(m != null){
         soma += m.elemento;
         m = m.inf;
-        if(m != null){
+        if(m != null){/
             m = m.dir;
         }
     }
@@ -700,4 +700,15 @@ boolean verificaDecrescente(){
     return true;
 }
 
-// na 
+// na fila de pilhas (fila c celula cabeca) somar a qt de elementos de todas as pilhas
+public int contarTotal(){
+    int count = 0;
+    for(CelulaFila i = primeiro.prox; i != null; i = i.prox){
+        CelulaPilha p = i.topo;
+        while(p != null){
+            soma ++;
+            p = p.prox;
+        }
+    }
+    return soma;
+}
