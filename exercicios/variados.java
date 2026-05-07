@@ -856,3 +856,26 @@ public boolean existe(int x, No i){
     
     return existe(x,i.esq) || existe(x,i.dir);// busco nas subarvores
 }
+
+//na arvore de listas retornar o char do no que a lista tem mais elementos
+public char melhorLetra = ' ';
+public int maiorTam = -1;
+public char noListaLonga(){
+    maiorTam = -1;
+    buscar(raiz);
+    return melhorLetra;
+}
+public void buscar(No i){
+    if(i == null){
+        return;
+    }
+    for(CelulaLista c = i.primeiro; i != null; i = i.prox){
+        tam ++;
+    }
+    if(tam > maiorTam){
+        maiorTam = tam;
+        melhorLetra = i.letra;
+    }
+    buscar(i.esq);
+    buscar(i.dir);
+}
