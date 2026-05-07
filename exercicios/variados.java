@@ -686,5 +686,18 @@ private int somaDiagonais(No i){
     return soma + somaDiagonais(i.esq) + somaDiagonais(i.dir);
 }
 
+// verificar em uma lista de filas se todas estao em ordem crescente
+boolean verificaDecrescente(){
+    for(CelulaLista i = inicio; i != null; i = i.prox){
+        CelulaPilha p = i.primeiro;
+        while(p != null && p.prox == null){
+            if(p.elemento > p.prox.elemento){
+                return false;
+            }
+            p = p.prox;
+        }
+    }
+    return true;
+}
 
-
+// na 
