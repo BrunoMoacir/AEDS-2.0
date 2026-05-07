@@ -712,3 +712,17 @@ public int contarTotal(){
     }
     return soma;
 }
+
+// pilha de listas pesquisar um elemento e retornar true se aparecer em qualquer das listas
+boolean existe(int x){
+    for(CelulaPilha p = topo; p != null; p = p.prox){
+        CelulaLista l = p.primeiro;
+        while(l != null){
+            if(l.elemento == x){
+                return true;
+            }
+            l = l.prox;
+        }
+    }
+    return false;
+}
