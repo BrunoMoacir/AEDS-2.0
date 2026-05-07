@@ -726,3 +726,20 @@ boolean existe(int x){
     }
     return false;
 }
+
+// na matriz de fila implementar o somaPrimeiros que percorre toda matriz e soma o primeiro elemento de cada fila nao vazia
+public int somaPrimeiros(){
+    int soma = 0;
+    CelulaMat linha = inicio;
+    while(linha != null){
+        CelulaMat col = linha;
+        while(col != null){
+            if(col.primeiro != null){
+                soma += col.elemento;
+            }
+            col = col.dir;
+        }
+        linha = linha.esq;
+    }
+    return soma;
+}
