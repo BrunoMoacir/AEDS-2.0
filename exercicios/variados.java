@@ -782,3 +782,28 @@ public int maisDeK(){
     }
     return count;
 }
+
+// na ABP percorrer toda arvore, e a cada no acessar a pilha e remover os valores negativos realocando ponteiros
+public void removeNegativos(){
+    removeNegativos(raiz);
+}
+private void removeNegativos(No i){
+    if(i == null){
+        return ;
+    }
+
+    while(i.topo != null && i.topo.elemento < 0){
+        i.topo = i.topo.prox;// removo os negativos do topo
+    }
+
+    CelulaPilha p = i.topo;
+    while(p != null){
+        if(p.prox.elemento < 0){
+            p.prox = p.prox.prox;
+        }else{
+            p = p.prox;
+        }
+    }
+    removeNegativos(i.esq);
+    removeNegativos(i.dir);
+}
