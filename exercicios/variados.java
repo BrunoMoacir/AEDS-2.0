@@ -807,3 +807,33 @@ private void removeNegativos(No i){
     removeNegativos(i.esq);
     removeNegativos(i.dir);
 }
+
+// na ABP de filas, implementar metodo que retorne a media de todas as filas de todos os nos
+public double media(){
+    int count = countTotal(raiz);
+    int soma = somaTotal(raiz);
+    if(count == 0){
+        return 0.0;
+    }
+    return (double)soma / count;
+}
+public int countTotal(No i){
+    if(i == null){
+        return 0;
+    }
+    int count = 0;
+    for(CelulaFila f = i.primeiro; f != null; f = f.prox){
+        count ++;
+    }
+    return count + countTotal(i.esq) + countTotal(i.dir);
+}
+public int somaTotal(No i){
+    if(i == null){
+        return 0;
+    }
+    int soma = 0;
+    for(CelulaFila f = i.primeiro; f != null; f = f.prox){
+        soma += f.elemento;
+    }
+    return soma + somaTotal(i.esq) + somaTotal(i.dir);
+}
