@@ -759,3 +759,26 @@ public int somaDiagonalPrincipal(){
     }
     return soma;
 }
+
+//contar nos da matriz com mais de k elementos na lista
+public int maisDeK(){
+    int count = 0;
+    CelulaMat linha = inicio;
+    while(linha != null){
+        CelulaMat col = linha;
+        while(col != null){
+            int tam = 0;
+            Celula c = col.primeiro.prox;
+            while(c != null){
+                tam ++;
+                c = c.prox;
+            }
+            if(tam > K){
+                count ++;
+            }
+            col = col.dir;
+        }
+        linha = linha.inf;
+    }
+    return count;
+}
