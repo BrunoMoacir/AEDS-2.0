@@ -743,3 +743,19 @@ public int somaPrimeiros(){
     }
     return soma;
 }
+
+// na fila de matrizes implementar metodo que some as diagonal principais das matrizes
+public int somaDiagonalPrincipal(){
+    int soma = 0;
+    for(CelulaFila f = primeiro.prox; f != null; f = f.prox){
+        Celula c = f.matriz.inicio;
+        while(c != null){
+            soma += c.elemento;
+            c = c.inf;// desco
+            if(c != null){//verifico se ainda tem matriz
+                c = c.dir;// vou p lado
+            }
+        }
+    }
+    return soma;
+}
