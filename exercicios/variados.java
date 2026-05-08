@@ -926,3 +926,18 @@ public int somaPrimeiro(){
     return soma;
 }
 
+// na fila de matrizes somar as diagonais principais
+public int somaDiagonais(){
+    int soma = 0;
+    for(CelulaFila i = primeiro; i != null; i = i.prox){
+        Celula c = i.matriz.inicio;
+        while(c != null){
+            soma += c.elemento;
+            c = c.inf;
+            if(c != null){
+                c = c.dir;
+            }
+        }
+    }
+    return soma;
+}
