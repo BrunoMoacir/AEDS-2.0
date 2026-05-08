@@ -965,3 +965,27 @@ public int contaLista(){
     return count;
 }
 
+// em uma arvore de pilha -> remover todos os elementos negativos da pilha
+public void removeNegativos(){
+    removeNegativos(raiz);
+}
+private void removeNegativos(No i){
+    if(i == null){
+        return 0;
+    }
+
+    while(i.topo != null && i.topo.elemento < 0){
+        i.topo = i.topo.prox;
+    }
+
+    CelulaPilha p = i.topo;
+    while(p != null && p.prox != null){
+        if(p.prox.elemento < 0){
+            p.prox = p.prox.prox;
+        }else{
+            p = p.prox;
+        }
+    }
+    removeNegativos(i.esq);
+    removeNegativos(i.dir);
+}
