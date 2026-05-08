@@ -1024,3 +1024,23 @@ private int somaFila(No i){
     }
     return soma + somaFila(i.esq) + somaFila(i.dir);
 }
+
+//na arvore de pilas verificar se um elemento x existe em qualquer pilha da arvore
+public boolean existe(int x){
+    return existe(x,raiz);
+}
+private boolean existe(int x, No i){
+    if(i == null){
+        return false;
+    }
+    CelulaPilha p = i.topo;
+
+    while(p != null){
+        if(p.elemento == x){
+            return true;
+        }
+        p = p.prox;
+    }
+
+    return existe(x,i.esq) || existe(x,i.dir);
+}
