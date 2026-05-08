@@ -879,3 +879,17 @@ public void buscar(No i){
     buscar(i.esq);
     buscar(i.dir);
 }
+
+// fila de pilhas -> total de elementos em todas as pilhas
+public int contarTotal{
+    int total = 0;
+
+    for(CelulaFila = primeiro.prox; i != null; i = i.prox){
+        CelulaPilha p = i.topo;
+        while(p != null){
+            soma += p.elemento;
+            p = p.prox;
+        }
+    }
+    return total;
+}
