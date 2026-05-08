@@ -989,3 +989,38 @@ private void removeNegativos(No i){
     removeNegativos(i.esq);
     removeNegativos(i.dir);
 }
+
+// na arvore de filas calcular a media global de todos os elementos de todas as pilhas
+public double media(){
+    int count = countFila(raiz);
+    if(count = 0){
+        return 0;
+    }
+    int soma = somaFila(raiz);
+
+    return (double)soma / count;
+}
+private int countFila(No i){
+    if(i == null){
+        return 0;
+    }
+    int count = 0;
+    CelulaFila f = i.primeiro;
+    while(f != null){
+        count ++;
+        f = f.prox;
+    }
+    return count + countFila(i.esq) + countFIla(i.dir);
+}
+private int somaFila(No i){
+    if(i == null){
+        return 0;
+    }
+    int soma = 0;
+    CelulaFila f = i.primeiro;
+    while(f != null){
+        soma += soma.elemento;
+        f = f.prox;
+    }
+    return soma + somaFila(i.esq) + somaFila(i.dir);
+}
