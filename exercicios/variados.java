@@ -1067,4 +1067,23 @@ public int somaFolhas(No i){
     return soma + somaFolhas(i.esq) + somaFolhas(i.dir);
 }
 
-// contar nos c
+// contar nos que a pilha tenha soma dos elementos maior que x
+public int somaMaior(int x){
+    return somaMaior(x, raiz);
+}
+private int somaMaior(int x, No i){
+    if(i == null){
+        return 0;
+    }
+    CelulaPilha p = i.primeiro;
+    int soma = 0;
+    while(p != null){
+        soma ++;
+        p = p.prox;
+    }
+    if(soma > x){
+        return 1 + somaMaior(x, i.esq) + somaMaior(x, i.dir);
+    }else{
+        return somaMaior(x,i.esq) + somaMaior(x,i.dir);
+    }
+}
