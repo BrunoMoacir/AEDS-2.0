@@ -941,3 +941,27 @@ public int somaDiagonais(){
     }
     return soma;
 }
+
+// matriz de lista -> contar listas com mais de k elementos
+public int contaLista(){
+    int count = 0;
+    CelulaMat linha = inicio;
+    while(linha != null){
+        CelulaMat col = linha;
+        while(col != null){
+            int tam = 0;
+            Celula l = col.primeiro.prox;
+            while(l != null){
+                tam ++;
+                l = l.prox;
+            }
+            if(tam > k){
+                count ++;
+            }
+            col = col.dir;
+        }
+        linha = linha.inf;
+    }
+    return count;
+}
+
