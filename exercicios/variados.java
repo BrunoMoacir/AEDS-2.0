@@ -1087,3 +1087,22 @@ private int somaMaior(int x, No i){
         return somaMaior(x,i.esq) + somaMaior(x,i.dir);
     }
 }
+
+//na arvore de listas somar o comprimento de todas as palavras armazenadas em todos os nos da arvore
+public int totalCaracteres(){
+    return totalCaracteres(raiz);
+}
+private int totalCaracteres(No i){
+    if(i == null){
+        return 0;
+    }
+    int soma = 0;
+    Celula f = i.primeiro;
+
+    while(f != null){
+        soma += palavra.length();
+    }
+
+    return soma + totalCaracteres(i.esq) + totalCaracteres(i.dir);
+}
+
