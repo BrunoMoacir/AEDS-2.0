@@ -1044,3 +1044,27 @@ private boolean existe(int x, No i){
 
     return existe(x,i.esq) || existe(x,i.dir);
 }
+
+// arvore de filas somar somente os elementos das filas dos nos folhas
+public int somaFolhas(){
+    return somaFolhas(raiz);
+}
+public int somaFolhas(No i){
+    if( i == null){
+        return 0;
+    }
+
+    int soma = 0;
+
+    if(i.esq == null && i.dir == null){
+        CelulaFila f = i.primeiro;
+        while(f != null){
+            soma += f.elemento;
+            f = f.prox;
+        }
+    }
+
+    return soma + somaFolhas(i.esq) + somaFolhas(i.dir);
+}
+
+// contar nos c
