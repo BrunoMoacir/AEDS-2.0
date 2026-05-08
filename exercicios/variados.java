@@ -1075,7 +1075,7 @@ private int somaMaior(int x, No i){
     if(i == null){
         return 0;
     }
-    CelulaPilha p = i.primeiro;
+    CelulaPilha p = i.topo;
     int soma = 0;
     while(p != null){
         soma ++;
