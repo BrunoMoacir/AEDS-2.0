@@ -908,3 +908,21 @@ public boolean existe(int x){
     return false;
 }
 
+// matriz de filas -> somar o primeiro elemento de cada fila ao vazia
+public int somaPrimeiro(){
+    int soma = 0;
+    CelulaMat linha = inicio;
+    while(linha != null){
+        CelulaMat col = linha;
+        while(col != null){
+            if(col.primeiro != null){
+                soma += primeiro;
+            }
+            f = f.prox;
+            col = col.dir;
+        }
+        linha = linha.inf;
+    }
+    return soma;
+}
+
