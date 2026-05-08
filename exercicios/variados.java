@@ -893,3 +893,18 @@ public int contarTotal{
     }
     return total;
 }
+
+// em uma pilha de listas verificar se um elemento x existe
+public boolean existe(int x){
+    for(CelulaPilha i = topo; i != null; i = i.prox){
+        CelulaLista p = i.primeiro;
+        while(p != null){
+            if(p.elemento == x){
+                return true;
+            }
+            p = p.prox;
+        }
+    }
+    return false;
+}
+
