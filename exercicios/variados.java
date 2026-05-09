@@ -1136,3 +1136,23 @@ private int contarNaInterna(No2 i, int tamanho){// conto quantas palavras da arv
     }
     return count + contarNaInterna(i.esq, tamanho ) + contarNaInterna(i.dir, tamanho);
 }
+
+// na lista de filas retornar a celula da lista que aponta para a fila com maior numero de elementos
+public CelulaLista maiorFila(){
+    int maior = 0;
+    CelulaLista resp = inicio;
+
+    for(CelulaLista i = inicio.prox; i != null; i = i.prox){
+        int count = 0;
+        CelulaFila f = i.primeiro.prox;
+        while(f != null){
+            count ++;
+            f = f.prox;
+        }
+        if(count > maior){
+            resp = i;
+            maior = count;
+        }
+    }
+    return resp;
+}
