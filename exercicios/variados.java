@@ -1150,9 +1150,10 @@ public CelulaLista maiorFila(){
             f = f.prox;
         }
         if(count > maior){
-            resp = i;
+            resp = i;// resp recebe a atual celula lista
             maior = count;
         }
     }
     return resp;
 }
+

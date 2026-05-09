@@ -29,3 +29,15 @@ void inserirFim(int x){
     ultimo->prox = nova;// proximo do ultimo vira a nova
     primeiro->ant = nova;// anterior do primeiro(ultimo) vira a nova
 }
+
+// na lista dupla circular com celula cabeca, remover o ultimo elemento
+void removerUltimo(){
+    if(primeiro->prox == primeiro){
+        return;// lista vazia
+    }  
+    CelulaDupla* ultimo = primeiro->ant;// crio uma celula pegando o ultimo elemento
+    CelulaDupla* penultimo = ultimo->ant;// crio uma celula pegando o penultimo elemento
+
+    penultimo->prox = primeiro;// faco o prox do penultimo (que seria o ultimo) apontar para o primeiro (cabeca)
+    primeiro->ant = penultimo;// faco o ant do primeiro(que seria o ultimo)apontar para o penultimo
+}
