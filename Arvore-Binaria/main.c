@@ -41,3 +41,26 @@ void removerUltimo(){
     penultimo->prox = primeiro;// faco o prox do penultimo (que seria o ultimo) apontar para o primeiro (cabeca)
     primeiro->ant = penultimo;// faco o ant do primeiro(que seria o ultimo)apontar para o penultimo
 }
+
+
+// remover a primeira linha da matriz flexivel ajustando os ponteiros
+// so eu ir para a segunda linha, passar por todos os elementos fazendo com que seu sup aponte para null
+void removerPrimeiraLinha(Matriz* m){
+    Celula* velhaLinha = m->inicio;
+    m->inicio = m->inicio->inf;// novo inicio = segunda linha
+
+    if(m->inicio != null){
+        Celula* c = m->inicio;
+        while(c != null){
+            c->sup = NULL;
+            c = c->dir;
+        }
+    }
+    // libero as colunas da primeira linha
+    while(velhaLinha != NULL){
+        Celula* prox = velhaLinha->dir;
+        free(velhaLinha);
+        velhaLinha = prox;
+    }
+    m->linhas --;
+}
