@@ -1106,3 +1106,33 @@ private int totalCaracteres(No i){
     return soma + totalCaracteres(i.esq) + totalCaracteres(i.dir);
 }
 
+// na arvore de arvore contar quantas palavras comecam e possuem a mesma quantidade de caracteres que o metodo mandar
+public int contarPalavras(String padrao){
+    char letra = padrao.charAt(0);
+    int tamanho = padrao.length();
+    No no = buscarNo(raiz,letra);// busca na arvore externa
+    if(no == null) return 0;
+    return contarNaInterna(no.raiz, tamanho);// percorrer abp interna
+}
+private No buscarNo(No i, char letra){// nesse metodo eu acho o No da primeira letra da string padrao
+    if(i == null){
+        return null;
+    }
+    if(i.letra == letra){
+        return i;
+    }
+    if(letra < i.letra){
+        return buscarNo(i.esq, letra);
+    }
+    return buscarNo(i.dir,letra);
+}
+private int contarNaInterna(No2 i, int tamanho){// conto quantas palavras da arvore interna sao do mesmo tamanho da string padrao
+    if(i == null){
+        return 0;
+    }
+    int count = 0;
+    if(i.palavra.length() == tamanho){
+        count = 1;
+    }
+    return count + contarNaInterna(i.esq, tamanho ) + contarNaInterna(i.dir, tamanho);
+}
