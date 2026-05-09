@@ -1156,3 +1156,28 @@ public CelulaLista maiorFila(){
     }
     return resp;
 }
+
+//na estrutura dicionario(arvore de listas) contar quantas palavras estao armazenadas no No correspondente a letra inicial
+public int contarPorLetra(char letra){
+    No no buscarNo(raiz,letra)// busco o no
+    if(no == null){
+        return 0;
+    }
+    int count = 0;
+    for(Celula j = no.primeiro; j != null; j = j.prox){
+        count ++;
+    }
+    return count;
+}
+private No buscarNo(No i, letra){
+    if(i == null){
+        return null;
+    }
+    if(i.letra == letra){
+        return i;
+    }
+    if(i.letra < letra){
+        return buscarNo(i.esq,letra);
+    }
+    return buscarNo(i.dir,letra);
+}
