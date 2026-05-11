@@ -1181,3 +1181,33 @@ private No buscarNo(No i, letra){
     }
     return buscarNo(i.dir,letra);
 }
+
+public int contarPalavras(String padrao){
+    char letra = padrao.charAt(0);
+    int tamanho = padrao.length();
+
+
+}
+private No buscarNo(No i, char letra){
+    if(i == null){
+        return 0;
+    }
+    if(i.letra == letra){
+        return i;// retorno o No que tem a letra
+    }
+    if(i.letra < letra){
+        return buscarNo(i.esq, letra);
+    }
+    return buscarNo(i.dir, letra);
+}
+private int contarNaInterna(No2 i, int tam){
+    if(i == null){
+        return 0;
+    }
+    int count = 0;
+    if(i.palavra.length() == tam){
+        count = 1;
+    }
+    return count + contarNaInterna(i.esq,tam) + contarNaInterna(i.dir,tam);
+}
+
