@@ -1302,3 +1302,29 @@ public int contaPares(){
     }
     return count;
 }
+
+// na arvore de arvore -> implementar o contarPalavras que recebe dois caracteres e retorna o numero de palavras que comecam com o primeiro E terminam com o ultimo
+public int contarPalavras(char primeiro, char ultimo){
+    return contarPalavras(primeiro,ultimo,raiz);
+}
+private int contarPalavras(char primeiro, char ultimo, No i){
+    if(i == null){
+        return 0;
+    }
+    int count = 0;
+    if(i.letra == primeiro){
+        count = contarNaInterna(primeiro,ultimo,i.raiz);
+    }
+    return count + contarPalavras(primeiro,ultimo,i.esq) + contarPalavras(primeiro,ultimo,i.dir);
+}
+private int contarNaInterna(primeiro,ultimo, No2 i){
+    if(i == null){
+        return 0;
+    }
+    String p = i.palavra;
+    int ok = 0;
+    if(p.charAt(0) == primeiro && p.charAt(p.length() - 1) == ultimo){
+        ok = 1;
+    }
+    return ok + contarNaInterna(primeiro,ultimo,i.esq) + contarNaInterna(primeiro,ultimo,i.dir);
+}
