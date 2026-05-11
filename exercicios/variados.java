@@ -1403,3 +1403,5 @@ private int contarNaLista(Celula j, String prefixo){
     }
     return count;
 }
+
+// na lista dupla flexivel

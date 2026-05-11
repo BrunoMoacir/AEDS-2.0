@@ -64,3 +64,14 @@ void removerPrimeiraLinha(Matriz* m){
     }
     m->linhas --;
 }
+
+// na lista dupla circular com celula cabeca, fazer o inserir inicio
+void inserirInicio(int x){
+    CelulaDupla* nova = novaCelulaDupla(x);
+    CelulaDupla* primeira = primeiro->prox;
+
+    nova->prox = primeira;// nova 
+    nova->ant = ultimo;
+    primeiro->prox = nova;
+    primeira->ant = nova;
+}
