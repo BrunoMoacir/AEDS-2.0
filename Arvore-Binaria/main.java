@@ -116,3 +116,18 @@ void removerMenor(No i){
     i.esq = removerMenor(i.esq);// continuo a esquerda
     return i;
 }
+
+// na ABP, remover o menor elemento
+void removerMaior() throws Exception{
+    if(raiz == null){
+        throw new Exception("Erro");
+    }
+    raiz = removerMaior(raiz);
+}
+void removerMaior(No i){
+    if(i.dir == null){
+        return i.esq;
+    }
+    i.dir = removerMaior(i.dir);// continuo a direita
+    return i;
+}
