@@ -1232,3 +1232,24 @@ public int contarPorLetra(No i, char letra){
         return contarPorLetra(i.dir, letra);
     }
 }
+
+//na arvore de listas implementar o string maior palavra
+private String melhor = "";
+public String maiorPalavra(){
+    melhor = "";
+    buscar (raiz);
+    return melhor;
+}
+private String maiorPalavra(No i){
+    if(i == null){
+        return;
+    }
+    for(Celula j = i.primeiro; i != null; i = i.prox){
+        if(i.palavra.compareTo(melhor) > 0){
+            melhor = j.palavra;
+        }
+    }
+    buscar(i.esq);
+    buscar(i.dir);
+}
+
