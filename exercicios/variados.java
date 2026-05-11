@@ -1264,5 +1264,41 @@ private boolean saoIguais(No a, No b){
     if(a.elemento != b.elemento){// elementos diferentes
         return false;
     }
-    return saoIguais(a.esq, b.dir) && saoIguais(a.dir, b.esq);// comparo mais folhas
+    return saoIguais(a.esq, b.esq) && saoIguais(a.dir, b.dir);// comparo mais folhas
+}
+
+// 2 arvores binarias a e b, retornar boolean se sao iguais ou nao
+public boolean saoEspelho(){
+    return saoEspelho(this.raiz, outra.raiz);
+}
+private boolean saoEspelho(No a,No b){
+    if(a == null && b == null){
+        return true;
+    }
+    if(a == null || b == null){
+        return false;
+    }
+    if(a.elemento != b.elemento){
+        return false;
+    }
+    return saoEspelho(a.esq, b.dir) && saoEspelho(a.dir,b.esq);
+}
+
+// em uma matriz de lista, contar o total de pares existentes em todas as listas
+public int contaPares(){
+    int count = 0;
+    CelulaMat linha = inicio;
+    while(linha != null){
+        CelulaMat col = linha;
+        while(col != null){
+            for(Celula c = col.primeiro.prox; i != null; i = i.prox){
+                if(c.elemento % 2 == 0){
+                    count ++;
+                }
+            }
+            col = col.dir;
+        }
+        linha = linha.inf;
+    }
+    return count;
 }
