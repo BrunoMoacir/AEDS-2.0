@@ -1355,3 +1355,20 @@ public void removeNegativos(){
         i = prox;
     }
 }
+
+// na matriz flexivel -> retornar o maior elemento
+public int maiorElemento(){
+    int maior = inicio;
+    Celula linha = inicio;
+    while(linha != null){
+        Celula col = linha;
+        while(col != null){
+            if(col.elemento > maior){
+                maior = col.elemento;
+            }
+            col = col.dir;
+        }
+        linha = linha.inf;
+    }
+    return maior;
+}
