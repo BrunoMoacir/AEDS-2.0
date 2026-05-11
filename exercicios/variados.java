@@ -1404,4 +1404,17 @@ private int contarNaLista(Celula j, String prefixo){
     return count;
 }
 
-// na lista dupla flexivel
+// na lista dupla flexivel circular com cabeca verificar se e palindromo
+public boolean ehPalindromo(){
+    CelulaDupla i = primeiro.prox;
+    CelulaDupla j = primeiro.ant;
+
+    while(i != j){
+        if(i.elemento != j.elemento){
+            return false;
+        }
+        i = i.prox;
+        j = j.ant;
+    }
+    return true;
+}
