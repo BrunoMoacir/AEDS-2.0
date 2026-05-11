@@ -1211,3 +1211,24 @@ private int contarNaInterna(No2 i, int tam){
     return count + contarNaInterna(i.esq,tam) + contarNaInterna(i.dir,tam);
 }
 
+// arvore de listas -> implementar o contarPorLetra(char letra)que retorna quantas palavras estao armazenadas no no da letra inicial
+public int contarPorLetra(char letra){
+    return contarPorLetra(raiz,letra);
+}
+public int contarPorLetra(No i, char letra){
+    if(i == null){
+        return 0;
+    }if(i.letra == letra){
+        Celula p = i.primeiro;
+        int count = 0;
+        while(p != null){
+            count ++;
+            p = p.prox;
+        }
+        return count;
+    }else if(letra < i.letra){
+        return contarPorLetra(i.esq, letra);
+    }else{
+        return contarPorLetra(i.dir, letra);
+    }
+}
