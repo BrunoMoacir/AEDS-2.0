@@ -101,3 +101,18 @@ No maiorEsq(No i, No j){// vou usar o no J
     }
     return j;
 }
+
+// na ABP, fazer o removerMenor() que remove o menor elemento vulgo no mais a esquerda
+void removerMenor() throws Exception{
+    if(raiz == null){
+        throw new Exception("Erro");
+    }
+    raiz = removerMenos(raiz);
+}
+void removerMenor(No i){
+    if(i.esq == null){// i e o menor: 0 ou 1 filho
+        return i.dir;
+    }
+    i.esq = removerMenor(i.esq);// continuo a esquerda
+    return i;
+}
