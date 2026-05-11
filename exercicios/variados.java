@@ -1253,3 +1253,16 @@ private String maiorPalavra(No i){
     buscar(i.dir);
 }
 
+// 2 arvores binarias a e b, retornar boolean se sao iguais ou nao
+private boolean saoIguais(No a, No b){
+    if(a == null && b == null){// chegou no fim entao sao iguais
+        return true;
+    }
+    if(a == null || b == null){// nao sao iguais
+        return false;
+    }
+    if(a.elemento != b.elemento){// elementos diferentes
+        return false;
+    }
+    return saoIguais(a.esq, b.dir) && saoIguais(a.dir, b.esq);// comparo mais folhas
+}
