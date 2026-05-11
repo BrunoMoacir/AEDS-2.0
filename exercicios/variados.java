@@ -1372,3 +1372,34 @@ public int maiorElemento(){
     }
     return maior;
 }
+
+// na arvore de listas (estrutura dicionario) retornar quantas palavras comecam com o prefixo dado
+public int contarPalavras(String prefixo){
+    char letra = prefixo.charAt(0);
+    No no = buscarNo(raiz,letra);
+    if(no == null){
+        return 0;
+    }
+    return contarNaLista(no.primeiro,prefixo);
+}
+private No buscarNo(No i, char letra){
+    if(i == null){
+        return null;
+    }
+    if(i.letra == letra){
+        return i;// retorno o indice
+    }
+    if(letra < i.letra){
+        return buscarNo(i.esq, letra);
+    }
+    return buscarNo(i.dir, letra);
+}
+private int contarNaLista(Celula j, String prefixo){
+    int count = 0;
+    while(j != null){
+        if(j.palavra.startsWith(prefixo)){
+            count ++;
+        }
+    }
+    return count;
+}
