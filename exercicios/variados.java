@@ -1328,3 +1328,14 @@ private int contarNaInterna(primeiro,ultimo, No2 i){
     }
     return ok + contarNaInterna(primeiro,ultimo,i.esq) + contarNaInterna(primeiro,ultimo,i.dir);
 }
+
+// na lista de pilhas implementar o soma topos, somo os elementos do topo de todas as pilhas n vazias da lista
+public int somaTopos(){
+    int soma = 0;
+    for(CelulaLista i = inicio; i != null; i = i.prox){
+        if(i.topo != null){
+            soma += i.topo.elemento;
+        }
+    }
+    return soma;
+}
