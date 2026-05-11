@@ -71,3 +71,33 @@ No maiorEsq(No i, No j){
     }
     return j;
 }
+
+// abp -> implementar remover do 0 sem consulta
+void remover(int x) throws Exception{
+    raiz = remover(x,raiz);
+}
+No remover(int x, No i) throws Exception{
+    if(i == null){
+        throw new Exception("Erro");
+    }else if(x < i.elemento){
+        remover(x, i.esq);
+    }else if(x > i.elemento){
+        remover(x, i.dir);
+    }else if(i.dir == null){// aqui eu ja achei o elemento, agora e processar seus filhos
+        i = i.esq;// se nao tem filho a direita pego o da esquerda
+    }else if(i.esq == null){
+        i = i.dir;// se n tem filho a esquerda pego o da direita
+    }else{
+        i.esq = maiorEsq(i,i.esq);
+    }
+    return i;
+}
+No maiorEsq(No i, No j){// vou usar o no J  
+    if(j.dir == null){// j e o maior -> n tem filho a direita
+        i.elemento = j.elemento;// copio para o no deletado
+        i = i.esq;//removo j
+    }else{
+        j.dir = maiorEsq(i,j.dir);// continuo buscando a direita
+    }
+    return j;
+}
