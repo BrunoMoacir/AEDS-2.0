@@ -1339,3 +1339,19 @@ public int somaTopos(){
     }
     return soma;
 }
+
+// na lista dupla encadeada remover todos os nos com elementos negativos
+public void removeNegativos(){
+    for(CelulaDupla i = primeiro.prox; i != null; i = i.prox){
+        CelulaDupla prox = i.prox;
+        if(i.elemento < 0){
+            i.ant.prox = i.prox;
+            if(i.prox != null){
+                i.prox.ant = i.ant;
+            }else{
+                ultimo = i.ant; 
+            }
+        }
+        i = prox;
+    }
+}
