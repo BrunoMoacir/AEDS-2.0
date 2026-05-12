@@ -267,4 +267,36 @@ public class resumo {
         }
         return folha + somaFolhas(i.esq) + somaFolhas(i.dir);
     }
+
+    // retornar a altura da ABP
+    int altura(No i){
+        if(i == null){
+            return -1;
+        }
+        int hEsq = altura(i.esq);
+        int hDir = altura(i.dir);
+
+        if(hEsq > hDir){
+            return 1 + hEsq;
+        }else{
+            return 1 + hDir;
+        }
+    }
+
+    // remover o menor elemento da ABP vulgo no mais a esquerda
+    void removerMenor() throws Exception{
+        if(raiz == null){
+            throw new Exception("Erro");
+        }
+        raiz = removerMenor(raiz);
+    }
+    void removerMenor(No i){
+        if(i.esq == null){
+            return i.dir;
+        }
+        i.esq = removerMenor(i.esq);
+        return i;
+    }
+
+    
 }
