@@ -155,5 +155,39 @@ public class resumo {
         return ok + contarInterna(p, u, i.esq) + contarInterna(p, u, i.dir);
     }
 
+    // agora contar quantas palavras comecam com a primeira letra da padrao e terminam com a ultima letra da padrao
+    public int contarPalavras(String padrao){
+        char letra = padrao.charAt(0);
+        int tamanho = padrao.length();
+        No no = buscarNo(letra,raiz);
+        if(no == null){
+            return 0;
+        }
+        return contarInterna(no.raiz,letra,tamanho);// ja achei o no certo, agora mando a raiz dele, a letra inicial e o tamanho
+
+    }
+    public No buscarNo(char letra,No i){
+        if(i == null){
+            return null;
+        }
+        if(i.letra == letra){
+            return i;
+        }
+        if(letra < i.letra){
+            return buscarNo(letra,i.esq);
+        }
+        return buscarNo(letra,i.dir);
+    }
+    public No contarInterna(No2 i,char letra, int tamanho){
+        if(i == null){
+            return 0;
+        }
+        int ok = 0;
+        if(i.palavra.charAt(0) == letra && i.palavra.length() == tamanho){
+            ok = 1;
+        }
+        return ok + contarInterna(i.esq,letra,tamanho) + contarInterna(i.dir,letra,tamanho);
+    }
+
     
 }
