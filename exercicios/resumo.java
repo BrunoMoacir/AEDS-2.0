@@ -298,5 +298,52 @@ public class resumo {
         return i;
     }
 
+    // remover todas as folhas da ABP
+    void removerFolhas(){
+        raiz = removerFolhas(raiz);
+    }
+    void removerFolhas(No i){
+        if(i == null){
+            return null;
+        }
+        if(i.esq == null && i.dir == null){
+            return null;
+        }
+        i.esq = removerFolhas(i.esq);
+        i.dir = removerFolhas(i.dir);
+        return i;
+    }
+
+    // remover pilhas vazias na abp
+    void removerPilhasVazias(){
+        raiz = removerPilhasVazias(raiz);
+    }
+    void removerPilhasVazias(No i){
+        if(i == null){
+            return null;
+        }
+        i.esq = removerPilhasVazias(i.esq);
+        i.dir = removerPilhasVazias(i.dir);
+        if(i.topo == null){
+            if(i.dir == null){
+                return i.esq;
+            }
+            if(i.esq == null){
+                return i.dir;
+            }
+            i.esq = maiorEsq(i,i.esq);
+        }
+        return i;
+    }
+    No maiorEsq(No i, No j){
+        if(j.dir == null){
+            i.elemento = j.elemento;
+            j = j.esq;
+        }else{
+            j.dir = maiorEsq(i,j.dir);
+        }
+        return j;
+    }
+
     
 }
