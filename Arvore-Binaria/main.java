@@ -131,3 +131,19 @@ void removerMaior(No i){
     i.dir = removerMaior(i.dir);// continuo a direita
     return i;
 }
+
+// na abp, remover todas as folhas (nos sem filhos)
+void removerFolhas(){
+    raiz = removerFolhas(raiz);
+}
+void No removerFolhas(No i){
+    if(i == null){
+        return null;
+    }
+    if(i.esq == null && i.dir == null){
+        return null;// é folha -> removo
+    }
+    i.esq = removerFolhas(i.esq);// faco o msm para esq
+    i.dir = removerFolhas(i.dir);// faco o msm para dir
+    return i;
+}
