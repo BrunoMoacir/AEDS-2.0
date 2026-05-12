@@ -131,4 +131,29 @@ public class resumo {
         }
         return isEspelho(a.esq, b.dir) && isEspelho(a.dir, b.esq);
     }
+
+    // arvore de arvore, contar quantas comecam com o char primeiro e termina com o char ultimo
+    public int contarPalavras(char p, char u){
+        return contarPalavras(p,u,raiz);
+    }
+    private int ContarPalavras(char p, char u, No i){
+        if(i == null){
+            return 0;
+        }
+        int count = contarInterna(p,u,i.raiz);
+        return count + contarPalavras(p, u,i.esq) + contarPalavras(p, u,i.dir);
+    }
+    private int contarInterna(char p, char u, No2 i){
+        if(i == null){
+            return 0;
+        }
+        String a = i.palavra;
+        int ok = 0;
+        if(a.charAt(0) == p && a.charAt(a.length() - 1) == u){
+            ok = 1;
+        }
+        return ok + contarInterna(p, u, i.esq) + contarInterna(p, u, i.dir);
+    }
+
+    
 }
