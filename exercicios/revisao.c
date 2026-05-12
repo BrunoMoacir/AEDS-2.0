@@ -28,3 +28,28 @@ void inserirInicio(int x){
     nova->ant = primeiro;
     primeiro->prox->ant = nova;
 }
+
+// inserir ordenado na lista dupla circular com cabeca
+void inserirOrdenado(int x){
+    CelulaDupla* nova = novaCelulaDupla(x);
+    CelulaDupla* cur = primeiro->prox;
+    while(cur != primeiro && cur->elemento < x){
+        cur = cur->prox;
+    }
+    nova->prox = cur;
+    nova->ant = cur->ant;
+    cur->ant->prox = nova;
+    cur->ant = nova;
+}
+
+// inverter a lista 
+void inverterLista(){
+    CelulaDupla* i = primeiro->prox;
+    while(i != primeiro){
+        CelulaDupla* tmp = i->prox;
+        i->prox = i->ant;
+        i->ant = tmp;
+        i = tmp;// avanco
+    }
+}
+
