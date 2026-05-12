@@ -115,5 +115,20 @@ public class resumo {
         }
     }
 
-    // 
+    // verificar se uma arvore e espelho da outra
+    public boolean isEspelho(Arvore outra){
+        return isEspelho(this.raiz, outra.raiz);
+    }
+    private boolean isEspelho(No a, No b){
+        if(a == null && b == null){
+            return true;
+        }
+        if(a == null || b == null){
+            return false;
+        }
+        if(a.elemento != b.elemento){
+            return false;
+        }
+        return isEspelho(a.esq, b.dir) && isEspelho(a.dir, b.esq);
+    }
 }
