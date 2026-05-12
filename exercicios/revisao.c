@@ -108,3 +108,24 @@ No* buscar(No* i, int x){
 }
 
 // inserir na arvore em c
+No* inserir(No* raiz, int x){
+    No* novo = malloc(sizeof(No));
+    novo->numero = x;
+    novo->esq = novo->dir = NULL;
+    if(!raiz)return novo;
+    No *c = raiz,*pai = NULL;
+    while(c ){
+        pai = cur;
+        if(x < cur->numero){
+            cur = cur->esq;
+        }else{
+            cur=cur->dir;
+        }
+    }
+    if(x <pai->numero){
+        pai->esq = novo;
+    }else{
+        pai->dir = novo;
+    }
+    return raiz;
+}
