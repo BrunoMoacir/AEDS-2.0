@@ -90,4 +90,30 @@ public class resumo {
         }
     }
     return maior;
+
+    // na matriz de listas com cabeça remover impares das listas
+    public void removeImpares(){
+        CelulaMat linha = inicio;
+        while(linha != null){
+            CelulaMat col = linha;
+            while(col != null){
+                Celula ant = col.primeiro, j = ant.dir;
+                while(j != null){
+                    if(j.numero % 2 != 0){
+                        ant.prox = j.prox;
+                        if(j == col.ultimo){
+                            col.ultimo = ant;
+                        }else{
+                            ant = j;
+                            j = ant.prox;
+                        }
+                        col = col.dir;
+                    }
+                    linha = linha.inf;
+                }
+            }
+        }
+    }
+
+    // 
 }
