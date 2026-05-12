@@ -189,5 +189,82 @@ public class resumo {
         return ok + contarInterna(i.esq,letra,tamanho) + contarInterna(i.dir,letra,tamanho);
     }
 
-    
+    // na arvore de listas,inserir palavra que cria o no na ABP se nao existir e insere a palavra do no em ordem alfabetica
+    public void inserir(String palavra){
+        char l = palavra.charAt(0);
+        raiz = inserir(palavra,l,raiz);
+    }
+    public No inserir(String palavra, char l, No i){
+        if(i == null){
+            No n = new No();
+            n.letra = l;
+            Celula c = new Celula();
+            c.palavra = palavra;
+            n.primeiro = n.ultimo = c;
+            return n;
+        }
+        if(l < i.letra){
+            i.esq = inserir(p,l,i.esq);
+        }else if(l > i.letra){
+            i.dir = inserir(p,l,i.dir);
+        }else{
+            Celula nova = new Celula();
+            nova.palavra = p;
+            Celula ant = null, j = i.primeiro;
+            while(j != null && j.palavra.compareTo(p) < 0){
+                ant = j;
+                j = j.prox;
+            }
+            nova.prox = j;
+            if(ant == null) i.primeiro = nova; else ant.prox = nova;
+    }
+    }
+
+    //no dicionario remover a palavra da lista do no correspondente
+    public void remover(String palavra){
+        remover(palavra,raiz);
+    }
+    public void remover(String p, No i){
+        if(i == null){
+            return;
+        }
+        char l = p.charAt(0);
+        if(l < i.letra){
+            remover(p,i.esq);
+        }else if(l > i.letra){
+            remover(p,i.dir);
+        }
+        Celula ant = null;
+        Celula j = i.primeiro;
+        while(j != null && !j.palavra.equals(p)){
+            ant = j;
+            j = j.prox;
+        }
+        if(j == null){
+            return;
+        }
+        if(ant == null){
+            i.primeiro = j.prox;
+        }else{
+            ant.prox = j.prox;
+        }
+        if(j == i.ultimo){
+            i.ultimo = ant;
+        }
+    }
+
+    // somar as folhas da arvore 
+    public int somaFolhas(){
+        return somaFolhas(raiz);
+    }
+    public int somaFolhas(No i){
+        if(i == null){
+            return 0;
+        }
+        int folha = 0;
+        if(i.esq == null && i.dir == null){
+            folha = i.numero;
+        }
+        return folha + somaFolhas(i.esq) + somaFolhas(i.dir);
+    }
 }
