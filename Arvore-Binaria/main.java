@@ -147,3 +147,18 @@ void No removerFolhas(No i){
     i.dir = removerFolhas(i.dir);// faco o msm para dir
     return i;
 }
+
+// na abp remover elementos maiores que X
+void removerMaiorX(int x){
+    raiz = removerMaiorX(x, raiz);
+}
+void removerMaiorX(int x,No i){
+    if(i == null){
+        return null;
+    }
+    if(i.elemento > x){
+        return removerMaiorX(x,i.esq);// descarto tudo a dir, mantenho so a subarvore esq
+    }
+    i.dir = removerMaiorX(x,i.dir);
+    return i;
+}
