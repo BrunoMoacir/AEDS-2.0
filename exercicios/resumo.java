@@ -37,4 +37,57 @@ public class resumo {
         col = col.dir;
     }
     linha = linha.inf;
+
+    // DIAGONAL PRINCIPAL
+    Celula c = inicio;
+    while(c != null)
+    // uso c
+    c = c.inf;
+    if(c != null){
+        c = c.dir;
+    }
+
+    // ARVORE BINARIA DE PESQUISA REMOCAO (3 casos)
+    No remover(int x, No i) throws Exception{
+        if(i == null){
+            throw new Exception("Erro");
+        }else if(x < i.elemento){
+            i.esq = remover(x,i.esq);
+        }else if(x > i.elemento){
+            i.dir = remover(x,i.dir);
+        }else if(i.dir == null){
+            i = i.esq;// caso 1 e 2a
+        }else if(i.esq == null){
+            i = i.dir;// caso 2b
+        }else{
+            i.esq = maiorEsq(i,i.esq);// caso 3
+        }
+        return i;
+    }
+    No maiorEsq(No i, No j){
+        if(j.dir == null){
+            i.elemento = j.elemento;
+            j = j.esq;
+        }else{
+            j.dir = maiorEsq(i, j.dir);
+        }
+        return j;
+    }
+
+    // lista de pilhas -> retornar a celula com a pilha de maior elemento
+    public CelulaLista maiorPilha(){
+        int tamanho = 0;
+        CelulaLista maior = inicio;
+        for(CelulaLista i = inicio; i != null; i = i.prox){
+            int count = 0;
+            for(CelulaPilha p = i.topo; i != null; i = i.prox){
+                count ++;
+            }
+            if(count > tamanho){
+                tamanho = count;
+                maior = i;
+            }
+        }
+    }
+    return maior;
 }
