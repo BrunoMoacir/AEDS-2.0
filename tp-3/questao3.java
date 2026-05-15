@@ -147,6 +147,9 @@ class Restaurante{
     public String getNome(){
         return nome;
     }
+    public double getAvaliacao(){
+        return avaliacao;
+    }
     public void setNome(String nome){
         this.nome = nome;
     }
@@ -273,77 +276,100 @@ class ColecaoRestaurantes{
     }
 }
 
-public class questao1{
+public class questao3{
     public static int comparacoes = 0;
     public static int movimentacoes = 0;
 
-    // ordenacao parcial por selecal
-    public static void selecaoParcial(Restaurante[] array, int n, int k){
-        for(int i = 0; i < k; i++){// laco so vai ate k
-            int menor = i;
+    public static int comparar(Restaurante r1, Restaurante r2){
+        comparacoes ++;// comparacao chave primaria
+        if(r1.getAvaliacao() < r2.getAvaliacao()){
+            return -1;
+        }
+        if(r1.getAvaliacao() > r1.getAvaliacao()){
+            return 1;
+        }
 
-            for(int j = (i + 1); j < n; j++){//continua ate o final do array p achar o menor
-                comparacoes ++;
+        comparacoes ++;// desempate pelo nome
+        return r1.getNome().compareTo(r2.getNome());
+    }
 
-                if(array[j].getNome().compareTo(array[menor].getNome()) < 0){
-                    menor = j;
-                }
+    public static void quicksort(Restaurante[] array, int esq, int dir, int k){
+        int i = esq, j = dir;
+        Restaurante pivo = array[(esq + dir) / 2];
+
+        while(i <= j){
+            while(comparar(array[i], pivo) < 0){// corro pela esquerda
+                i ++;
             }
-            Restaurante tmp = array[i];
-            array[i] = array[menor];
-            array[menor] = tmp;
 
-            movimentacoes += 3;
+            while(comparar(array[j], pivo) > 0){// corro pela direita
+                j --;
+            }
+            if(i <= j){// faco a troca
+                Restaurante temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+                movimentacoes += 3;// contabilizo as movimentacoes
+                i ++;// incremento
+                j --;// decremento
+            }
+        }
+
+        if(esq < j){// faco a chamada recursiva esquerda sempre que houver elementos
+            quicksort(array, esq, j, k);
+        }
+
+        // so ordeno a parte da direita se o i for menor que k
+        if(i < k && i < dir){
+            quicksort(array, esq, dir, k);
         }
     }
 
-    public static Restaurante buscarPorId(ColecaoRestaurantes col, int id){
-        for(int i = 0; i < col.getTamanho(); i ++){
+    public static Restaurante buscarPorId(ColecaoRestaurantes col, int id){// busca pelo id
+        for(int i = 0; i < col.getTamanho(); i++){
             if(col.getRestaurantes()[i].getId() == id){
-                return col.getRestaurantes()[i];
+                return col.getRestaurantes()[i];// se achar retorno o id
             }
         }
-        return null;
+        return null;// se nao nulo
     }
 
-    public static void main(String[] args)throws Exception {
+    public static void main(String[] args) throws Exception {
         ColecaoRestaurantes col = new ColecaoRestaurantes();
         col.lerCsv("/tmp/restaurantes.csv");
 
         Scanner sc = new Scanner(System.in);
-
         Restaurante[] array = new Restaurante[1000];
         int n = 0;
 
-        while(sc.hasNext()){
+        while(sc.hasNext()){// leio os ids da entrada
             String idBusca = sc.next();
             if(idBusca.compareTo("-1") == 0){
-                break;
+                break;// se chegar no -1 paro
             }
 
             int id = Util.paraInt(idBusca);
-            Restaurante r = buscarPorId(col, id);
+            Restaurante r = buscarPorId(col,id);
 
             if(r != null){
                 array[n++] = r;
             }
         }
+        int k = 10;// k enunciado
 
-        int k = 10;// definicao da atividade
+        long inicioTempo = System.currentTimeMillis();// ligo cronometro
 
-        long inicioTempo = System.currentTimeMillis();// ligo o cronometro
-
-        selecaoParcial(array, n, k);//  faco a ordenacao parcial
+        quicksort(array, 0, n - 1, k);// chamo o quick passando o k
 
         long fimTempo = System.currentTimeMillis();// desligo cronometro
         long tempoTotal = fimTempo - inicioTempo;
 
-        for(int i = 0; i < n; i++){
-            System.out.println(array[i].formatar());// imprimo os k primeiros restaurantes
+        for(int i = 0; i < k; i++){//imprimo
+            System.out.println(array[i].formatar());
         }
 
-        FileWriter writer = new FileWriter("885492_selecao_parcial.txt");
-        writer.write("885492\t" + comparacoes + "\t" + movimentacoes + "\t" + tempoTotal + "\n");
+        FileWriter writer = new FileWriter("885492_quicksort_parcial.txt");
+        writer.write("885492\t" + comparacoes + "\t" + tempoTotal + "\n");
         writer.close();
     }
 }
