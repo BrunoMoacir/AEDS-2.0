@@ -285,7 +285,7 @@ public class questao3{
         if(r1.getAvaliacao() < r2.getAvaliacao()){
             return -1;
         }
-        if(r1.getAvaliacao() > r1.getAvaliacao()){
+        if(r1.getAvaliacao() > r2.getAvaliacao()){
             return 1;
         }
 
@@ -321,7 +321,7 @@ public class questao3{
 
         // so ordeno a parte da direita se o i for menor que k
         if(i < k && i < dir){
-            quicksort(array, esq, dir, k);
+            quicksort(array, i, dir, k);
         }
     }
 
@@ -364,7 +364,7 @@ public class questao3{
         long fimTempo = System.currentTimeMillis();// desligo cronometro
         long tempoTotal = fimTempo - inicioTempo;
 
-        for(int i = 0; i < k; i++){//imprimo
+        for(int i = 0; i < n; i++){//imprimo
             System.out.println(array[i].formatar());
         }
 
