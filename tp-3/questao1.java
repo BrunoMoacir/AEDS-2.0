@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 class Util{// base para todo o tp2
@@ -269,5 +270,79 @@ class ColecaoRestaurantes{
             }
         }
         sc.close();
+    }
+}
+
+public class questao1{
+    public static int comparacoes = 0;
+    public static int movimentacoes = 0;
+
+    // ordenacao parcial por selecal
+    public static void selecaoParcial(Restaurante[] array, int n, int k){
+        for(int i = 0; i < k; i++){// laco so vai ate k
+            int menor = i;
+
+            for(int j = (i + 1); j < n; j++){//continua ate o final do array p achar o menor
+                comparacoes ++;
+
+                if(array[j].getNome().compareTo(array[menor].getNome()) < 0){
+                    menor = j;
+                }
+            }
+            Restaurante tmp = array[i];
+            array[i] = array[menor];
+            array[menor] = tmp;
+
+            movimentacoes += 3;
+        }
+    }
+
+    public static Restaurante buscarPorId(ColecaoRestaurantes col, int id){
+        for(int i = 0; i < col.getTamanho(); i ++){
+            if(col.getRestaurantes()[i].getId() == id){
+                return col.getRestaurantes()[i];
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args)throws Exception {
+        ColecaoRestaurantes col = new ColecaoRestaurantes();
+        col.lerCsv("/tmp/restaurantes.csv");
+
+        Scanner sc = new Scanner(System.in);
+
+        Restaurante[] array = new Restaurante[1000];
+        int n = 0;
+
+        while(sc.hasNext()){
+            String idBusca = sc.next();
+            if(idBusca.compareTo("-1") == 0){
+                break;
+            }
+
+            int id = Util.paraInt(idBusca);
+            Restaurante r = buscarPorId(col, id);
+
+            if(r != null){
+                array[n++] = r;
+            }
+        }
+
+        int k = 10;// definicao da atividade
+
+        long inicioTempo = System.currentTimeMillis();// ligo o cronometro
+
+        selecaoParcial(array, n, k);//  faco a ordenacao parcial
+
+        long fimTempo = System.currentTimeMillis();// desligo cronometro
+        long tempoTotal = fimTempo - inicioTempo;
+
+        for(int i = 0; i < n; i++){
+            System.out.println(array[i].formatar());// imprimo os k primeiros restaurantes
+        }
+
+        FileWriter writer = new FileWriter("885492_selecao_parcial.txt");
+        writer.write("885492\t" + comparacoes + "\t" + movimentacoes + "\t" + tempoTotal + "\t");
     }
 }
