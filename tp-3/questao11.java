@@ -379,7 +379,7 @@ public class questao11{
             }
 
             if(esq < j){// lado esquerdo
-                quicksort(esq, j, nodeEsq, nodeDir);
+                quicksort(esq, j, nodeEsq, nodeJ);
             }
 
             esq = i;// lado direito vai ser no proximo ciclo do while
