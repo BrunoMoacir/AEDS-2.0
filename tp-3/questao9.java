@@ -87,6 +87,7 @@ class Matriz {
 
     public void mostrarDiagonalPrincipal() {
         if (this.linha != this.coluna) {// nao e matriz quadrada
+            System.out.println();
             return;
         }
 
@@ -106,6 +107,7 @@ class Matriz {
 
     public void mostrarDiagonalSecundaria() {
         if (this.linha != this.coluna) {// vejo se e quadrada
+            System.out.println();
             return;
         }
 
