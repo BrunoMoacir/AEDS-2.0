@@ -1,109 +1,111 @@
 import java.util.Scanner;
 
-class Celula{
+class Celula {
     public int elemento;
-    public Celula inf, sup, esq, dir;// ponteiros para andar 
+    public Celula inf, sup, esq, dir;// ponteiros para andar
 
-    public Celula(){
+    public Celula() {
         this(0);
     }
 
-    public Celula(int elemento){
+    public Celula(int elemento) {
         this.elemento = elemento;
         this.inf = this.sup = this.dir = this.esq = null;
     }
 }
 
-class Matriz{
+class Matriz {
     private Celula inicio;// ponteiro p celula 0,0
-    private int linha,coluna;
+    private int linha, coluna;
 
-    public Matriz(int linha, int coluna){
+    public Matriz(int linha, int coluna) {
         this.linha = linha;
         this.coluna = coluna;
 
-        if(linha == 0 || coluna == 0){
+        if (linha <= 0 || coluna <= 0)
             return;
-        }
 
-        inicio = new Celula();// crio a celula 0 0 
+        inicio = new Celula();// crio celula 0 0
+
+        // monto a primeira linha
         Celula atual = inicio;
-
-        for(int j = 1; j < coluna; j++){// monto a primeira linha toda
+        for (int j = 1; j < coluna; j++) {
             Celula nova = new Celula();
-            atual.dir = nova;
+            atual.dir = nova;// ligo esq-dir
             nova.esq = atual;
             atual = nova;
         }
 
-        Celula linhaAcima = inicio;
-        for(int i = 1; i < linha; i++){// monto as outras linhas
-            Celula novaLinhaInicio = new Celula();// crio o primeiro elemento da linha e junto com o de cima
-            novaLinhaInicio.sup = linhaAcima;
-            linhaAcima.inf = novaLinhaInicio;
+        Celula linhaAnterior = inicio;// ponteiro guia
 
-            Celula atualLinha = novaLinhaInicio;
-            Celula atualAcima = linhaAcima.dir;
+        // monto as outras linhas
+        for (int i = 1; i < linha; i++) {
 
-            for(int j = 1; j < coluna; j++){//vou andandopara a direita e criando o resto da linha
+            Celula novaLinha = new Celula();// crio primeiro elemento da linha
+            linhaAnterior.inf = novaLinha;// junto
+            novaLinha.sup = linhaAnterior;
+
+            Celula atualNova = novaLinha;
+            Celula atualSup = linhaAnterior;
+
+            for (int j = 1; j < coluna; j++) {// vou andando p direita criando o resto
+
                 Celula nova = new Celula();
 
-                atualLinha.dir = nova;// esq-dir
-                nova.esq = atualLinha;
+                atualNova.dir = nova;// ligo esq dir
+                nova.esq = atualNova;
 
-                nova.sup = atualAcima;// cima-baixo
-                atualAcima.inf = nova;
+                atualSup = atualSup.dir;// avanco ponteiro de cima
 
-                atualLinha = atualLinha.dir;// avanco os ponteiros
-                atualAcima = atualAcima.dir;
+                atualSup.inf = nova;// ligo cima baixo
+                nova.sup = atualSup;
+
+                atualNova = nova;//avanco o ponteiro da linha atual
             }
-            linhaAcima = novaLinhaInicio;// desco o ponteiro guia para a prox iteracao
+
+            linhaAnterior = linhaAnterior.inf;// desco o ponteiro p proxima iteracao
         }
     }
 
-    public void ler(Scanner sc){
-        Celula linha = inicio;
-        while(linha != null){
-            Celula atual = linha;
-            while(atual != null){
-                atual.elemento = sc.nextInt();
-                atual = atual.dir;
+    public void ler(Scanner sc) {
+        for (Celula lin = inicio; lin != null; lin = lin.inf) {
+            for (Celula col = lin; col != null; col = col.dir) {
+                col.elemento = sc.nextInt();
             }
-            linha = linha.inf;
         }
     }
 
-    public void mostrar(){
-        Celula linha = inicio;
-        while(linha != null){
-            Celula atual = linha;
-            while(atual != null){
-                System.out.println(atual.elemento + " ");
-                atual = atual.dir;
-            }
-            System.out.println();
-            linha = linha.inf;
+    public void mostrar() {
+    for (Celula lin = inicio; lin != null; lin = lin.inf) {
+        for (Celula col = lin; col != null; col = col.dir) {
+            System.out.print(col.elemento);
+            if (col.dir != null) System.out.print(" ");
         }
+        System.out.println();
     }
+}
 
-    public void mostrarDiagonalPrincipal(){
-        if(this.linha != this.coluna){// n e matriz quadrada
+    public void mostrarDiagonalPrincipal() {
+        if (this.linha != this.coluna) {// nao e matriz quadrada
             return;
         }
 
         Celula atual = inicio;
-        while(atual != null){
-            System.out.println(atual.elemento + " ");
+        while (atual != null) {
+            System.out.print(atual.elemento);
             atual = atual.dir;// vou para direita
-            if(atual != null){// vejo se e null ou nao
+            if (atual != null) {// vejo se e null ou nao
                 atual = atual.inf;// desco 1
+                if(atual != null){
+                    System.out.print(" ");
+                }
             }
         }
         System.out.println();
     }
 
     public void mostrarDiagonalSecundaria() {
-        if (this.linha != this.coluna){// vejo se e quadrada
+        if (this.linha != this.coluna) {// vejo se e quadrada
             return;
         }
 
@@ -113,28 +115,31 @@ class Matriz{
         }
 
         while (atual != null) {
-            System.out.print(atual.elemento + " ");// imprimo
+            System.out.print(atual.elemento);// imprimo
             atual = atual.esq;// vou p esquerda
             if (atual != null) {// vejo se e valido
                 atual = atual.inf;// desco
+                if(atual != null){
+                    System.out.print(" ");
+                }
             }
         }
         System.out.println();
     }
 
-    public Matriz somar(Matriz m){
+    public Matriz somar(Matriz m) {
         Matriz resp = new Matriz(this.linha, this.coluna);
 
         Celula ptrRespLinha = resp.inicio;
         Celula ptrA_linha = this.inicio;
         Celula ptrB_linha = m.inicio;
 
-        while(ptrA_linha != null){
+        while (ptrA_linha != null) {
             Celula ptrResp = ptrRespLinha;
             Celula ptrA = ptrA_linha;
             Celula ptrB = ptrB_linha;
 
-            while(ptrA != null){
+            while (ptrA != null) {
                 ptrResp.elemento = ptrA.elemento + ptrB.elemento;
 
                 ptrResp = ptrResp.dir;
@@ -150,7 +155,7 @@ class Matriz{
 
     public Matriz multiplicar(Matriz m) {
         Matriz resp = new Matriz(this.linha, m.coluna);
-        
+
         Celula ptrRespLinha = resp.inicio;
         Celula ptrA_Linha = this.inicio;
 
@@ -162,7 +167,7 @@ class Matriz{
                 int soma = 0;
                 Celula ptrA = ptrA_Linha;
                 Celula ptrB = ptrB_Coluna;
-                
+
                 // Multiplica a linha de A pela coluna de B
                 while (ptrA != null && ptrB != null) {
                     soma += ptrA.elemento * ptrB.elemento;
@@ -170,7 +175,7 @@ class Matriz{
                     ptrB = ptrB.inf; // b anda p baixo
                 }
                 ptrResp.elemento = soma;
-                
+
                 ptrResp = ptrResp.dir;
                 ptrB_Coluna = ptrB_Coluna.dir; // pulo p a proxima coluna
             }
@@ -181,32 +186,27 @@ class Matriz{
     }
 }
 
-public class questao9{
+public class questao9 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        if(sc.hasNextInt()){
-            int casos = sc.nextInt();//pego a qt de casos de teste
+        if (sc.hasNextInt()) {
+            int casos = sc.nextInt();// pego a qt de casos de teste
+            for (int c = 0; c < casos; c++) {
 
-            for(int c = 0; c < casos; c ++){
                 int l1 = sc.nextInt();
                 int c1 = sc.nextInt();
-                Matriz m1 = new Matriz(l1,c1);// li matriz 1
+                Matriz m1 = new Matriz(l1, c1);// crio e leio a matriz 1
                 m1.ler(sc);
 
-                int l2 = sc.nextInt();
-                int c2 = sc.nextInt();
-                Matriz m2 = new Matriz(l2,c2);// li matriz 2
+                Matriz m2 = new Matriz(l1, c1);
                 m2.ler(sc);
 
-                m1.mostrarDiagonalPrincipal();
-                m2.mostrarDiagonalSecundaria();
+                m1.mostrarDiagonalPrincipal();// diagonal principal m1
+                m2.mostrarDiagonalSecundaria();// diagonal sec m2
 
-                Matriz soma = m1.somar(m2);
-                soma.mostrar();
-
-                Matriz mult = m1.multiplicar(m2);
-                mult.mostrar();
+                m1.somar(m2).mostrar();
+                m1.multiplicar(m2).mostrar();
             }
         }
         sc.close();
