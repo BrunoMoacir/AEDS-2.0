@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animação: Rotações de Árvore AVL</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 { font-size: 1.5em; }
+        .controls {
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        select, button {
+            padding: 10px;
+            font-size: 1em;
+            margin: 5px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            font-weight: bold;
+        }
+        button:hover { background-color: #1976D2; }
+        #mensagem {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #d32f2f;
+            height: 30px;
+            margin-bottom: 10px;
+        }
+        #arena {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .node {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #2196F3;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 2;
+            transform: translate(-50%, -50%);
+            transition: top 1s ease-in-out, left 1s ease-in-out;
+        }
+        .node.avo { background: #E64A19; }
+        .node.pai { background: #388E3C; }
+        .node.filho { background: #1976D2; }
+        svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+        }
+        line {
+            stroke: #999;
+            stroke-width: 3;
+            transition: x1 1s ease-in-out, y1 1s ease-in-out, x2 1s ease-in-out, y2 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Simulador de Balanceamento de Árvores</h1>
+    
+    <div class="controls">
+        <select id="tipoRotacao">
+            <option value="esq">Rotação Simples à Esquerda (Entortou p/ Direita)</option>
+            <option value="dir">Rotação Simples à Direita (Entortou p/ Esquerda)</option>
+            <option value="dirEsq">Rotação Dupla Dir-Esq (Zigue-zague Dir-Esq)</option>
+            <option value="esqDir">Rotação Dupla Esq-Dir (Zigue-zague Esq-Dir)</option>
+        </select>
+        <br>
+        <button onclick="carregarRotacao()">1. Carregar Cenário</button>
+        <button onclick="proximoPasso()">2. Próximo Passo</button>
+    </div>
+
+    <div id="mensagem">Escolha uma rotação e clique em "Carregar Cenário".</div>
+
+    <div id="arena">
+        <svg id="linhas"></svg>
+        <div id="avo" class="node avo">Avô</div>
+        <div id="pai" class="node pai">Pai</div>
+        <div id="filho" class="node filho">Filho</div>
+    </div>
+
+    <script>
+        const posicoes = {
+            esq: [
+                { msg: "Árvore desbalanceada para a direita.", coords: { avo: [100, 50], pai: [200, 130], filho: [300, 210] }, linhas: [['avo', 'pai'], ['pai', 'filho']] },
+                { msg: "Rotação simples à esquerda no Avô!", coords: { pai: [200, 50], avo: [100, 130], filho: [300, 130] }, linhas: [['pai', 'avo'], ['pai', 'filho']] }
+            ],
+            dir: [
+                { msg: "Árvore desbalanceada para a esquerda.", coords: { avo: [300, 50], pai: [200, 130], filho: [100, 210] }, linhas: [['avo', 'pai'], ['pai', 'filho']] },
+                { msg: "Rotação simples à direita no Avô!", coords: { pai: [200, 50], filho: [100, 130], avo: [300, 130] }, linhas: [['pai', 'filho'], ['pai', 'avo']] }
+            ],
+            dirEsq: [
+                { msg: "Desbalanceada em zigue-zague (Direita - Esquerda).", coords: { avo: [100, 50], pai: [300, 130], filho: [200, 210] }, linhas: [['avo', 'pai'], ['pai', 'filho']] },
+                { msg: "Passo 1: Rotação à direita no Pai para alinhar.", coords: { avo: [100, 50], filho: [300, 130], pai: [400, 210] }, linhas: [['avo', 'filho'], ['filho', 'pai']] },
+                { msg: "Passo 2: Rotação à esquerda no Avô!", coords: { filho: [200, 50], avo: [100, 130], pai: [300, 130] }, linhas: [['filho', 'avo'], ['filho', 'pai']] }
+            ],
+            esqDir: [
+                { msg: "Desbalanceada em zigue-zague (Esquerda - Direita).", coords: { avo: [300, 50], pai: [100, 130], filho: [200, 210] }, linhas: [['avo', 'pai'], ['pai', 'filho']] },
+                { msg: "Passo 1: Rotação à esquerda no Pai para alinhar.", coords: { avo: [300, 50], filho: [100, 130], pai: [0, 210] }, linhas: [['avo', 'filho'], ['filho', 'pai']] },
+                { msg: "Passo 2: Rotação à direita no Avô!", coords: { filho: [200, 50], pai: [100, 130], avo: [300, 130] }, linhas: [['filho', 'pai'], ['filho', 'avo']] }
+            ]
+        };
+
+        let estagioAtual = 0;
+        let cenarioAtual = [];
+
+        function desenharLinhas(conexoes, coords) {
+            const svg = document.getElementById('linhas');
+            svg.innerHTML = ''; 
+            conexoes.forEach(par => {
+                const p1 = coords[par[0]];
+                const p2 = coords[par[1]];
+                const linha = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                linha.setAttribute('x1', p1[0]);
+                linha.setAttribute('y1', p1[1]);
+                linha.setAttribute('x2', p2[0]);
+                linha.setAttribute('y2', p2[1]);
+                svg.appendChild(linha);
+            });
+        }
+
+        function moverNos(coords) {
+            ['avo', 'pai', 'filho'].forEach(id => {
+                const el = document.getElementById(id);
+                el.style.left = coords[id][0] + 'px';
+                el.style.top = coords[id][1] + 'px';
+            });
+        }
+
+        function aplicarEstagio() {
+            const estagio = cenarioAtual[estagioAtual];
+            document.getElementById('mensagem').innerText = estagio.msg;
+            moverNos(estagio.coords);
+            
+            setTimeout(() => {
+                desenharLinhas(estagio.linhas, estagio.coords);
+            }, 50); 
+        }
+
+        function carregarRotacao() {
+            const tipo = document.getElementById('tipoRotacao').value;
+            cenarioAtual = posicoes[tipo];
+            estagioAtual = 0;
+            aplicarEstagio();
+        }
+
+        function proximoPasso() {
+            if (cenarioAtual.length === 0) {
+                alert("Por favor, clique em 'Carregar Cenário' primeiro.");
+                return;
+            }
+            if (estagioAtual < cenarioAtual.length - 1) {
+                estagioAtual++;
+                aplicarEstagio();
+            } else {
+                document.getElementById('mensagem').innerText = "Árvore já está balanceada! Carregue outro cenário.";
+            }
+        }
+
+        window.onload = carregarRotacao;
+    </script>
+</body>
+</html>
