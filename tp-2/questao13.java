@@ -2,6 +2,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;
 
+import treino.Fila;
+
 class Util {// base para todo o tp2
     public static int paraInt(String s) {
         int res = 0;
