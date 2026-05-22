@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árvore AVL: Inserindo 1 a 10</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .controls {
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 600px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #2196F3;
+            color: white;
+            font-weight: bold;
+            margin: 5px;
+        }
+        button:hover { background-color: #1976D2; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        #mensagem {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #E64A19;
+            min-height: 40px;
+            margin-top: 10px;
+        }
+        #arena {
+            position: relative;
+            width: 650px;
+            height: 350px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .node {
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            background: #2196F3;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 2;
+            transform: translate(-50%, -50%);
+            transition: top 1s ease-in-out, left 1s ease-in-out;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+        }
+        line {
+            stroke: #999;
+            stroke-width: 2;
+            transition: all 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <h2>Simulação AVL: Inserindo 1 a 10</h2>
+        <button id="btnProximo" onclick="proximoPasso()">Iniciar Inserções</button>
+        <button onclick="reiniciar()">Reiniciar</button>
+        <div id="mensagem">Clique no botão para inserir o número 1.</div>
+    </div>
+
+    <div id="arena">
+        <svg id="linhas"></svg>
+        <div id="nodes"></div>
+    </div>
+
+    <script>
+        // Estrutura de dados pré-computada dos estados da árvore (v = valor, l = esquerda, r = direita)
+        const steps = [
+            { msg: "Árvore vazia. Clique para iniciar.", tree: null },
+            { msg: "Inseriu o 1. Árvore balanceada.", tree: {v:1} },
+            { msg: "Inseriu o 2. Árvore balanceada.", tree: {v:1, r:{v:2}} },
+            { msg: "Inseriu o 3. Nó 1 desbalanceou (Peso extra à direita). Rotação Simples à Esquerda no 1!", tree: {v:1, r:{v:2, r:{v:3}}} },
+            { msg: "Rotação concluída! O 2 virou a raiz.", tree: {v:2, l:{v:1}, r:{v:3}} },
+            { msg: "Inseriu o 4. Árvore balanceada.", tree: {v:2, l:{v:1}, r:{v:3, r:{v:4}}} },
+            { msg: "Inseriu o 5. Nó 3 desbalanceou (Peso extra à direita). Rotação Simples à Esquerda no 3!", tree: {v:2, l:{v:1}, r:{v:3, r:{v:4, r:{v:5}}}} },
+            { msg: "Rotação concluída! O 4 assumiu o lugar do 3.", tree: {v:2, l:{v:1}, r:{v:4, l:{v:3}, r:{v:5}}} },
+            { msg: "Inseriu o 6. A raiz (2) desbalanceou! (Muitos nós na direita). Rotação Simples à Esquerda no 2!", tree: {v:2, l:{v:1}, r:{v:4, l:{v:3}, r:{v:5, r:{v:6}}}} },
+            { msg: "Rotação concluída! O 4 agora é a nova raiz global da árvore.", tree: {v:4, l:{v:2, l:{v:1}, r:{v:3}}, r:{v:5, r:{v:6}}} },
+            { msg: "Inseriu o 7. Nó 5 desbalanceou. Rotação Simples à Esquerda no 5!", tree: {v:4, l:{v:2, l:{v:1}, r:{v:3}}, r:{v:5, r:{v:6, r:{v:7}}}} },
+            { msg: "Rotação concluída! O 6 assumiu o lugar do 5.", tree: {v:4, l:{v:2, l:{v:1}, r:{v:3}}, r:{v:6, l:{v:5}, r:{v:7}}} },
+            { msg: "Inseriu o 8. Árvore balanceada.", tree: {v:4, l:{v:2, l:{v:1}, r:{v:3}}, r:{v:6, l:{v:5}, r:{v:7, r:{v:8}}}} },
+            { msg: "Inseriu o 9. Nó 7 desbalanceou. Rotação Simples à Esquerda no 7!", tree: {v:4, l:{v:2, l:{v:1}, r:{v:3}}, r:{v:6, l:{v:5}, r:{v:7, r:{v:8, r:{v:9}}}}} },
+            { msg: "Rotação concluída! O 8 assumiu o lugar do 7.", tree: {v:4, l:{v:2, l:{v:1}, r:{v:3}}, r:{v:6, l:{v:5}, r:{v:8, l:{v:7}, r:{v:9}}}} },
+            { msg: "Inseriu o 10. Nó 6 desbalanceou (Lado direito imenso). Rotação Simples à Esquerda no 6!", tree: {v:4, l:{v:2, l:{v:1}, r:{v:3}}, r:{v:6, l:{v:5}, r:{v:8, l:{v:7}, r:{v:9, r:{v:10}}}}} },
+            { msg: "Rotação concluída! Árvore AVL perfeitamente balanceada com os números de 1 a 10.", tree: {v:4, l:{v:2, l:{v:1}, r:{v:3}}, r:{v:8, l:{v:6, l:{v:5}, r:{v:7}}, r:{v:9, r:{v:10}}}} }
+        ];
+
+        let currentStep = 0;
+
+        function traverseTree(node, depth, positions, lines, parent = null) {
+            if (!node) return;
+            
+            // O X é calculado puramente pelo valor do nó, pois em uma BST de
