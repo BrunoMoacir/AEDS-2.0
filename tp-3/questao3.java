@@ -369,6 +369,7 @@ public class questao3{
         }
 
         
+        
         FileWriter writer = new FileWriter("885492_quicksort_parcial.txt");
         writer.write("885492\t" + comparacoes + "\t" + tempoTotal + "\n");
         writer.close();
