@@ -48,3 +48,12 @@ void remover(int x){
         }
     }
 }
+
+
+// hash direta com rehash
+int hash(int x){
+    return x % tamTabela;
+}
+int rehash(int x){
+    return ++x % tamTabela;
+}
