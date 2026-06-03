@@ -34,18 +34,17 @@ boolean pesquisar(int x){
     }
 }
 
-void inserir(int x){
-    int pos = hash(x);// pego a posicao
+void remover(int x){
+    int pos = hash(x);
 
-    if(array[pos] == -1){// se onde ele deveria estar estiver vazio, ja insiro la
-        array[pos] = x;
+    if(array[pos] == x){
+        array[pos] = -1;
     }else{
-        for(int i = n; i < n + m; i++){// se nao vou ate a area de reserva e procuro um lugar vazio para inserir
-            if(array[i] == -1){
-                array[i] = x;
+        for(int i = x; i < n + m; i ++){
+            if(array[i] == x){
+                array[i] = -1;
                 break;
             }
         }
     }
 }
-
