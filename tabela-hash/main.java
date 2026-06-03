@@ -35,12 +35,12 @@ boolean pesquisar(int x){
 }
 
 void remover(int x){
-    int pos = hash(x);
+    int pos = hash(x);// pego a posicao
 
-    if(array[pos] == x){
+    if(array[pos] == x){// se estiver na tabela eu removo
         array[pos] = -1;
     }else{
-        for(int i = x; i < n + m; i ++){
+        for(int i = x; i < n + m; i ++){// se nao eu procuro ele na area de reserva e removo
             if(array[i] == x){
                 array[i] = -1;
                 break;
@@ -55,5 +55,46 @@ int hash(int x){
     return x % tamTabela;
 }
 int rehash(int x){
-    return ++x % tamTabela;
+    return (x + 1) % tamTabela;
+}
+
+void inserir(int x){
+    int pos = hash(x);// pego a posicao
+
+    if(array[pos] == -1){// se na posicao estiver vazia eu insiro ele la
+        array[pos] = x;
+    }else{// ja tinha elemento la
+        pos = rehash(x);// dou um rehash nele
+        if(array[pos] == -1){// vejo se a posicao apos o rehash esta vazia
+            array[pos] = x;// insiro
+        }
+        // se ela tambem estiver ocupada nao faco nada
+    }
+}
+
+boolean pesquisar(int x){
+    int pos = hash(x);// pego a posicao
+
+    if(array[pos] == x){// se encontrei na posicao principal retorno verdadeiro
+        return true;
+    }else{
+        pos = rehash(x);// se nao encontrei, dou um rehash e procuro nele
+        if(array[pos] == x){
+            return true;
+        }
+    }
+    return false;// nao encontrei em nenhuma das posicoes
+}
+
+void remover(int x){
+    int pos = hash(x);// pego a posicao
+
+    if(array[pos] == x){// se ele estiver na principal, removo
+        array[pos] = -1;
+    }else{
+        pos = rehash(x);// se nao eu verifico a posicao de rehash
+        if(array[pos] == x){// se ele estiver la eu removo
+            array[pos] = -1;
+        }
+    }
 }
