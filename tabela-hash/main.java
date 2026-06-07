@@ -40,7 +40,7 @@ void remover(int x){
     if(array[pos] == x){// se estiver na tabela eu removo
         array[pos] = -1;
     }else{
-        for(int i = x; i < n + m; i ++){// se nao eu procuro ele na area de reserva e removo
+        for(int i = n; i < n + m; i ++){// se nao eu procuro ele na area de reserva e removo
             if(array[i] == x){
                 array[i] = -1;
                 break;
@@ -97,4 +97,29 @@ void remover(int x){
             array[pos] = -1;
         }
     }
+}
+
+// hash indireta com lista flexivel simples
+
+public void inserir(int x){
+    int pos = hash(x);
+
+    tabela[pos].inserirFim(x);//insiro na lista na posicao correta
+}
+
+public boolean pesquisar(int x){
+    int pos = hash(x);// vejo em qual lista procuro
+
+    for(Celula i = tabela[pos].primeiro; i != null; i = i.prox){
+        if(i.elemento == x){
+            return true;
+        }
+    }
+    return false;
+}
+
+public void remover(int x){
+    int pos = hash(x);
+
+    tabela[pos].remover(x);// removo da lista que pertence
 }
