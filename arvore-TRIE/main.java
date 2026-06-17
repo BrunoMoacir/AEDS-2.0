@@ -38,3 +38,20 @@ private void inserir(String s, No no, int i)throws Exception{
         throw new Exception("Erro");// palavra ja existe ou algo deu errado
     }
 }
+
+// a ideia do mostrar é enquanto desce na arvore ele vai montando a palavra em uma String s
+// quando encontra um no com folha == true ele imprime a palavra completa
+public void mostrar(){
+    mostrar("", raiz);// comeca o percurso na raiz, a string comeca vazia
+}
+private void mostrar(String s, No no){
+    if(no.folha == true){// se chegar no final imprimo
+        System.out.println("Palavra: " + (s + no.elemento));
+    }else{
+        for(int i = 0; i < no.prox.length; i++){// percorro todos os filhos do no atual
+            if(no.prox[i] != null){// se existe um filho na posicao
+                mostrar(s + no.elemento, no.prox[i]);// continuo o percurso adicionando a letra atual na string
+            }
+        }
+    }
+}
