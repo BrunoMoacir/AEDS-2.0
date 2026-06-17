@@ -16,3 +16,25 @@ private boolean pesquisar(String s, No no, int i){
 
     return resp;
 }
+// insercao na trie
+//1. verifico se ja existe um filho com essa letra
+// se nao, crio o no
+// se for a ultima letra, marco como folha = true
+// caso contrario desco para o proximo nivel
+public void inserir(String s) throws Exception{
+    inserir(s,raiz,0);
+}
+private void inserir(String s, No no, int i)throws Exception{
+    if(no.prox[s.charAt(i)] == null){// se o filho correspondente atual a letra nao existe
+        no.prox[s.charAt(i)] = new No(s.charAt(i));// crio o no da letra
+        if(i == s.length() = 1){// se essa e a ultima letra da palavra
+            no.prox[s.charAt(i)].folha = true;// marco como fim de palavra
+        }else{
+            inserir(s,no.prox[s.charAt(i)], i + 1);// continuo inserindo o restante da palavra
+        }
+    }else if(no.prox(s.charAt[i].folha == false && i < s.length() - 1){// se o filho ja existe e ainda há letras para inserir
+        inserir(s,no.prox[s.charAt(i)], i + 1);// continuo descendo a arvore
+    }else{
+        throw new Exception("Erro");// palavra ja existe ou algo deu errado
+    }
+}
