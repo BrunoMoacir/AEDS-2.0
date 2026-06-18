@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 class Util{// base para todo o tp2
@@ -273,5 +274,138 @@ class ColecaoRestaurantes{
             }
         }
         sc.close();
+    }
+}
+
+class Hash{
+    private Restaurante [] tabela;
+    private int tamTab;
+
+    public Hash(){
+        tamTab = 83;// tamanho enunciado
+        tabela = new Restaurante[tamTab];
+        for(int i = 0; i < tamTab; i++){
+            tabela[i] = null;//nulo todas gavetas vazias
+        }
+    }
+
+    public int hash(String nome){
+        int soma = 0;
+        for(int i = 0; i < nome.length(); i++){
+            soma += nome.charAt(i);// pego valor da ascii da letra e somo
+        }
+        return soma % tamTab;// hash
+    }
+
+    public int rehash(String nome){
+        int soma = 0;
+        for(int i = 0; i < nome.length(); i++){
+            soma += nome.charAt(i);
+        }
+        return (soma + 1) % tamTab;// rehash
+    }
+
+    public void inserir(Restaurante r){
+        int pos = hash(r.getNome());
+
+        if(tabela[pos] == null){
+            tabela[pos] = r;// se tiver vazio insiro
+        }else{// deu colisao -> dou rehash
+            pos = rehash(r.getNome());
+            if(tabela[pos] == null){// se a posicao do rehash estiver vazia insiro nela
+                tabela[pos] = r;
+            }else{// deu colisao denovo, apenas imprimo o nome
+                System.out.println(r.getNome());
+            }
+        }
+    }
+
+    public void pesquisar(String nome){
+        int pos = hash(nome);
+        questao4.comparacoes ++;// incremento
+
+        if(tabela[pos] != null && tabela[pos].getNome().compareTo(nome) == 0){
+            System.out.println(pos + " " + tabela[pos].formatar());// achei no hash original
+            return;
+        }
+
+        pos = rehash(nome);
+        questao4.comparacoes ++;
+
+        if(tabela[pos] != null && tabela[pos].getNome().compareTo(nome) == 0){
+            System.out.println(pos + " " + tabela[pos].formatar());// achei no rehash
+            return;
+        }
+
+        System.out.println("-1");// nao achei em nenhum
+    }
+}
+
+public class questao4{
+    public static int comparacoes = 0;
+
+    public static Restaurante buscarPorId(ColecaoRestaurantes col, int id){
+        for(int i = 0; i < col.getTamanho(); i++){
+            if(col.getRestaurantes()[i].getId() == id){
+                return col.getRestaurantes()[i];
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args)throws Exception {
+        ColecaoRestaurantes col = new ColecaoRestaurantes();
+        col.lerCsv("/tmp/restaurantes.csv");
+
+        Scanner sc = new Scanner(System.in);
+        Hash hashTab = new Hash();
+
+        while(sc.hasNext()){
+            String idBusca = sc.next();
+            if(idBusca.compareTo("FIM") == 0 || idBusca.compareTo("-1") == 0){
+                break;
+            }
+
+            int id = Util.paraInt(idBusca);
+            Restaurante r = buscarPorId(col, id);
+
+            if(r != null){
+                hashTab.inserir(r);
+            }
+        }
+
+        long inicioTempo = System.currentTimeMillis();// inicio tempo
+
+        while(sc.hasNextLine()){
+            String nomeBusca = sc.nextLine();
+
+            int fim = nomeBusca.length() - 1;
+            while(fim >= 0 && (nomeBusca.charAt(fim) == '\r' || nomeBusca.charAt(fim) == ' ' || nomeBusca.charAt(fim) == '\n')){
+                fim --;
+            }
+
+            if(fim < 0){
+                continue;// linha vazia
+            }
+
+            String nomeLimpo = "";
+            for(int i = 0; i <= fim; i++){
+                nomeLimpo += nomeBusca.charAt(i);
+            }
+            nomeBusca = nomeLimpo;
+
+            if(nomeBusca.compareTo("FIM") == 0){
+                break;
+            }
+
+            hashTab.pesquisar(nomeBusca);
+        }
+        
+        long fimTempo = System.currentTimeMillis();// termino tempo
+        long tempoTotal = fimTempo - inicioTempo;
+        
+        FileWriter writer = new FileWriter("885492_hash_rehash.txt");
+        writer.write("885492\t" + comparacoes + "\t" + tempoTotal + "\n");
+        writer.close();
     }
 }
