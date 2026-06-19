@@ -343,7 +343,7 @@ class Trie{
             }
 
             i = i.tabela[pos];
-            System.out.println(i.elemento + " ");// imprimo a letra q visitei
+            System.out.print(i.elemento + " ");// imprimo a letra q visitei
         }
 
         if(i.folha){
