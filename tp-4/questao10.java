@@ -280,3 +280,196 @@ class ColecaoRestaurantes{
         sc.close();
     }
 }
+
+class NoBinario{
+    public char letra;// letra q navego na arvore
+    public NoTrie filhoTrie;// ponteiro para o proxcimo nivel da Trie;
+    public NoBinario esq, dir;// fdilhos
+
+    public NoBinario(char letra){
+        this.letra = letra;
+        this.filhoTrie = new NoTrie();// ja crio o no da trie p essa letra
+        this.esq = null;
+        this.dir = null;
+    }
+}
+
+class NoTrie{
+    public char elemento;
+    public boolean folha;
+    public Restaurante restaurante;
+    public NoBinario raizFilhos;//
+
+    public NoTrie(){
+        this(' ');
+    }
+
+    public NoTrie(char elemento){
+        this.elemento = elemento;
+        this.folha = false;
+        this.restaurante = null;
+        this.raizFilhos = null;// comeca vazia
+    }
+}
+
+class TrieBinaria{
+    private NoTrie raiz;
+
+    public TrieBinaria(){
+        raiz = new NoTrie();
+    }
+
+    public void inserir(Restaurante r){
+        String nome = r.getNome();
+        NoTrie atual = raiz;
+
+        for(int i = 0; i < nome.length(); i ++){
+            char c = nome.charAt(i);
+            atual.raizFilhos = inserirNaBST(c, atual.raizFilhos);// garanto que a letra exista na bst de filhos do no atual
+
+            atual = pesquisarNaBST(c, atual.raizFilhos).filhoTrie;// vou para o proximo nivelda trie usando a bst que atualizei
+        }
+
+        atual.folha = true;// fim da palavra
+        atual.restaurante = r;// guardo o restaurante na folha
+    }
+
+    private NoBinario inserirNaBST(char c, NoBinario no){
+        if(no == null){
+            return new NoBinario(c);// achei onde a letra entra
+        }else if(c < no.letra){
+            no.esq = inserirNaBST(c, no.esq);
+        }else if(c > no.letra){
+            no.dir = inserirNaBST(c, no.dir);
+        }
+        return no;// se for igual nao faco nada e so retorno
+    }
+
+    private NoBinario pesquisarNaBST(char c, NoBinario no){
+        if(no == null){
+            return null;
+        }
+        if(c == no.letra){
+            return no;
+        }
+        if(c < no.letra){
+            return pesquisarNaBST(c, no.esq);
+        }
+        return pesquisarNaBST(c,no.dir);
+    }
+
+    private NoBinario pesquisarNaBSTComContador(char c, NoBinario no) {
+        if (no == null) {
+            return null;
+        }
+        
+        questao10.comparacoes++; // conto a batida
+        if (c == no.letra) {
+            return no; // achei na BST!
+        }
+        
+        questao10.comparacoes++; // conto a proxima batida
+        if (c < no.letra) {
+            return pesquisarNaBSTComContador(c, no.esq);
+        } else {
+            return pesquisarNaBSTComContador(c, no.dir);
+        }
+    }
+
+    public void pesquisar(String nome) {
+        NoTrie atual = raiz;
+
+        for (int i = 0; i < nome.length(); i++) {
+            char c = nome.charAt(i);
+            
+            // procuro a proxima letra dentro da BST de filhos
+            NoBinario noEncontrado = pesquisarNaBSTComContador(c, atual.raizFilhos);
+
+            if (noEncontrado == null) {
+                System.out.println("NAO"); // letra n existe, o nome n ta aqui
+                return;
+            }
+
+            atual = noEncontrado.filhoTrie;
+            
+            System.out.print(atual.elemento + " "); 
+        }
+
+        if (atual.folha) {
+            System.out.println("SIM " + atual.restaurante.formatar());
+        } else {
+            System.out.println("NAO"); 
+        }
+    }
+}
+
+public class questao10{
+    public static int comparacoes = 0;
+
+    public static Restaurante buscarPorId(ColecaoRestaurantes col, int id) {
+        for (int i = 0; i < col.getTamanho(); i++) {
+            if (col.getRestaurantes()[i].getId() == id) {
+                return col.getRestaurantes()[i];
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        ColecaoRestaurantes col = new ColecaoRestaurantes();
+        col.lerCsv("/tmp/restaurantes.csv");
+
+        Scanner sc = new Scanner(System.in);
+        TrieBinaria arvore = new TrieBinaria();
+
+        while (sc.hasNext()) {
+            String idBusca = sc.next();
+            if (idBusca.compareTo("FIM") == 0 || idBusca.compareTo("-1") == 0) {
+                break;
+            }
+
+            int id = Util.paraInt(idBusca);
+            Restaurante r = buscarPorId(col, id);
+
+            if (r != null) {
+                arvore.inserir(r);
+            }
+        }
+
+        long inicioTempo = System.currentTimeMillis(); 
+
+        while (sc.hasNextLine()) {
+            String nomeBusca = sc.nextLine();
+
+            int fim = nomeBusca.length() - 1;
+            while (fim >= 0 && (nomeBusca.charAt(fim) == '\r' || nomeBusca.charAt(fim) == ' ' || nomeBusca.charAt(fim) == '\n')) {
+                fim--;
+            }
+
+            if (fim < 0) {
+                continue; 
+            }
+
+            // monto a string limpa 
+            String nomeLimpo = "";
+            for (int i = 0; i <= fim; i++) {
+                nomeLimpo += nomeBusca.charAt(i);
+            }
+            nomeBusca = nomeLimpo;
+
+            if (nomeBusca.compareTo("FIM") == 0) {
+                break;
+            }
+
+            arvore.pesquisar(nomeBusca);
+        }
+        long fimTempo = System.currentTimeMillis(); 
+        long tempoTotal = fimTempo - inicioTempo;
+
+        sc.close();
+
+        FileWriter writer = new FileWriter("885492_arvore_trie_arvore.txt");
+        writer.write("885492\t" + comparacoes + "\t" + tempoTotal + "\n");
+        writer.close();
+    }
+}
