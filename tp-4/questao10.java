@@ -288,7 +288,7 @@ class NoBinario{
 
     public NoBinario(char letra){
         this.letra = letra;
-        this.filhoTrie = new NoTrie();// ja crio o no da trie p essa letra
+        this.filhoTrie = new NoTrie(letra);// ja crio o no da trie p essa letra
         this.esq = null;
         this.dir = null;
     }
@@ -298,7 +298,7 @@ class NoTrie{
     public char elemento;
     public boolean folha;
     public Restaurante restaurante;
-    public NoBinario raizFilhos;//
+    public NoBinario raizFilhos;
 
     public NoTrie(){
         this(' ');
@@ -415,7 +415,7 @@ public class questao10{
         return null;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         ColecaoRestaurantes col = new ColecaoRestaurantes();
         col.lerCsv("/tmp/restaurantes.csv");
 
