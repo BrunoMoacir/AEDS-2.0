@@ -1,3 +1,5 @@
+// TRIE COM HASH
+
 public boolean pesquisar(String s) throws Exception{
     return pesquisar(s,raiz,0);//comeco a pesquisa olhando a primeira letra (posicao 0)
 }
