@@ -329,27 +329,29 @@ void inserirNaListaOrdenada(Celula *primeira, Restaurante *r) {
 }
 
 void pesquisarNaLista(Celula *i, char *nome) {
-    // comeco varrendo a partir do primeiro restaurante real 
     while (i != NULL) {
         comparacoes++; 
         
-        // imprimo nome q visitei
-        printf("%s ", i->elemento->nome);
-
+        //calculo a diferenca alfabeta
         int cmp = comparar_strings(nome, i->elemento->nome);
+
+        if (cmp < 0) {
+            break; 
+        }
+
+        // imprimo o rastro
+        printf("%s ", i->elemento->nome);
 
         if (cmp == 0) {
             char buffer[1000];
             formatar_restaurante(i->elemento, buffer);
-            printf("SIM %s\n", buffer); // achei
+            printf("SIM %s\n", buffer); 
             return;
-        } else if (cmp < 0) {
-            break; // quebro o laco
         }
 
-        i = i->prox; // pulo pro proximo da fila
+        i = i->prox; 
     }
-    // n existe
+    
     printf("NAO\n");
 }
 
