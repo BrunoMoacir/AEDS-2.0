@@ -10,7 +10,7 @@ public class main{
 		int topo = -1;
 
 		// empilhar 5
-		for(int i = 0; i M 5; i++){
+		for(int i = 0; i < 5; i++){
 			String nome = sc.next();
 			topo ++;
 			pilha[topo] = nome;
