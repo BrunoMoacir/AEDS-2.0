@@ -52,7 +52,7 @@ private int maiorQueM(No no){
         resp ++;// incremento
     }
 
-    No [] filhos = getFilhos();
+    No [] filhos = no.getFilhos();
     for(int i = 0; i < filhos.length; i++){// verifico tudo recursivamente
         resp += maiorQueM(filhos[i]);
     }
@@ -75,3 +75,46 @@ public No[] getFilhos(){
     }
     return resp;
 }
+
+// na trie ABB contar quantas palavras possuem tamanho maior que 5
+public int contarMaiorQue5(No no, int nivel){
+    int resp = 0;
+    if(no.folha){
+        if(nivel > 5){
+            resp ++;
+        }
+    }
+
+    No [] filhos = no.getFilho();
+    for(int i = 0; i < filho.length; i++){
+        resp += contarMaiorQue5(filhos[i], nivel + 1);
+    }
+    return resp;
+}
+public int tamanho(){
+    return tamanho(raiz);
+}
+private int tamanho(NoABB no){
+    int resp = 0;
+    if(no != null){
+        resp = 1;// conto atual
+        resp += tamanho(no.esq);
+        resp += tamanho(no.dir);
+    }
+    return resp;
+}
+public No [] getFilho(){
+    int tam = tamanho;
+    No [] resp = new No[tam];
+    preencher(resp,raiz,0);// preencho vetor em ordem
+    return resp;
+}
+public int preencher(No [] resp, NoABB no, int pos){
+    if(no != null){
+        pos = preencher(resp,no.esq, pos);// esquerda
+        resp[pos] = no.elemento;
+        pos ++;
+        pos = preencher(resp,no.dir,pos);// direita
+    }
+}
+
