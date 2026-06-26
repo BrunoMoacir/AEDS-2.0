@@ -40,3 +40,38 @@ private int contarUmFilho(No no){
     }
     return count;
 }
+
+// na trie de lista flexivel contar quantos nos possuem letra maior que M
+public int maiorQueM(){
+    return maiorQueM(raiz);
+}
+private int maiorQueM(No no){
+    int resp = 0;
+
+    if(no.elemento > 'M'){// verificacao da condicao
+        resp ++;// incremento
+    }
+
+    No [] filhos = getFilhos();
+    for(int i = 0; i < filhos.length; i++){// verifico tudo recursivamente
+        resp += maiorQueM(filhos[i]);
+    }
+    return resp;
+}
+public int tamanho(){
+    int tam = 0;
+    for(Celula i = 0; i != null; i = i.prox){
+        tam ++;
+    }
+    return tam;
+}
+public No[] getFilhos(){
+    int tam = tamanho();
+    No[] resp = new No[tam];// crio vetor do tamanho do tamanho
+    int j = 0;
+    for(Celula i = 0; i != null; i = i.prox){
+        resp[j] = i.no;// copio no da lista pro vetor
+        j++;
+    }
+    return resp;
+}
