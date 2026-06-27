@@ -178,3 +178,22 @@ public int contarVermelhos(No i){
     }
     return count;
 }
+
+// na trie hash contar quantas palavras terminam com vogal
+public int contaVogal(){
+    return contaVogal(raiz);
+}
+private int contaVogal(No no){
+    int resp = 0;
+    if(no.folha){// so verifico o final das palavrasv (sao marcados como boolean folha = true)
+        if(no.elemento == 'A' || no.elemento == 'E' || no.elemento == 'I' || no.elemento == 'O' || no.elemento == 'U'){
+            resp ++;
+        }
+    }
+    for(int i = 0; i < no.prox.length; i++){
+        if(no.prox[i] != null){
+            resp += contaVogal(no.prox[i]);
+        }
+    }
+    return resp;
+}
