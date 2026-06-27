@@ -142,3 +142,39 @@ private boolean todosBalanceados(No i){
     }
     return resp;
 }
+
+// na alvinegra implementar metodo que retorna verdadeiro caso nenhum no vermelho tenha filho vermelho
+public boolean verificaFilho(){
+    return verificaFilho(raiz);
+}
+private boolean verificaFilho(No i){
+    boolean resp = true;
+    if(i != null){
+        if(i.cor == false){// verifico apenas cor vermelha
+            if(i.esq != null && i.esq.cor == false){// se tem filho a esquerda e ele é vermelho
+                resp = false;
+            }
+            if(i.dir != null && i.dir.cor == false){// se tem filho a direita e ele e vermelho
+                resp = false;
+            }
+        }
+        resp = verificaFilho(i.esq);// vejo todos da esquerda
+        if(resp){// se resp ainda for true verifico os da direita
+            resp = verificaFilho(i.dir);
+        }
+    }
+    return resp;
+}
+
+// na alvinegra contar os nos vermelhos
+public int contarVermelhos(No i){
+    int count = 0;
+    if(i != null){
+        if(i.cor == false){
+            count ++;
+        }
+        count += contarVermelhos(i.esq);
+        count += contarVermelhos(i.dir);
+    }
+    return count;
+}
