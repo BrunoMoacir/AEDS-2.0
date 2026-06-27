@@ -204,7 +204,7 @@ public int contaTresFilhos(){
 }
 private int contaTresFilhos(No no){
     int resp = 0;
-    No [] filhos = getFilho();// transformo a lista em vetor
+    No [] filhos = no.getFilho();// transformo a lista em vetor
 
     if(filhos.length == 3){// se tiver exatamente 3 filhos
         resp ++;
@@ -214,4 +214,23 @@ private int contaTresFilhos(No no){
         resp += contarTresFilhos(filhos[i]);
     }
     return resp;
+}
+// metodo aux getFilho da lista
+public No [] getFilho(){
+    int tam = tamanho();
+    No [] resp = new No [tam];// crio exatamente do tamanho
+
+    int j = 0;
+    for(Celula i = primeiro.prox; i != null; i = i.prox){
+        resp[j] = i.no;// copio da lista pro vetor
+        j ++;
+    }
+}
+// metodo aux tamanho
+public int tamanho(){
+    int tam = 0;
+    for(Celula i = primeiro.prox; i != null; i = i.prox){
+        tam ++;
+    }
+    return tam;
 }
