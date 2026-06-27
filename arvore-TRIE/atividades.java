@@ -234,3 +234,45 @@ public int tamanho(){
     }
     return tam;
 }
+
+// na trie hash retornar true caso alguma palavra tenha mais de 10 letras
+public int maiorQueDez(){
+    return maiorQueDez(raiz, 0);// preciso do nivel como contador de letras
+}
+private int maiorQueDez(No no, int nivel){
+    boolean resp = false;
+    if(no.folha){// se eu cheguei no fim da palavra
+        if(nivel > 10){
+            resp = true;
+        }
+    }
+
+    for(int i = 0; i < no.prox.length; i++){
+        if(no.prox[i] != null){
+            resp = maiorQueDez(no.prox[i], nivel + 1);
+            if(resp){// ja encontrei e posso parar
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// na avl contar quantos nos possuem exatamente 1 filho
+public int contarUmFilho(){
+    return contarUmFilho(raiz);
+}
+private int contarUmFilho(No i){
+    int count = 0;
+    if(i != null){
+        if(i.esq != null && i.dir == null){
+            resp ++;
+        }
+        if(i.esq == null && i.dir != null){
+            resp ++;
+        }
+        resp += contarUmFilho(i.esq);
+        resp += contarUmFilho(i.dir);
+    }
+    return resp;
+}
