@@ -118,3 +118,27 @@ public int preencher(No [] resp, NoABB no, int pos){
     }
 }
 
+// na avl retornar true ou falso se todos os nos estao balanceados
+public boolean todosBalanceados(){
+    return todosBalanceados(raiz);
+}
+private boolean todosBalanceados(No i){
+    boolean resp = true;
+    if(i != null){
+        int fb = altura(i.esq) - altura(i.dir);// calculo o fator de balanceamento
+        if(fb < 0){
+            fb *= -1;// passo o fator para positivo caso ele seja negativo
+        }
+
+        if(fb > 1){
+            resp = false;
+        }else{
+            resp = todosBalanceados(i.esq);
+
+            if(resp){// se pra esquerda ta tudo balanceado olho a direita
+                resp = todosBalanceados(i.dir);
+            }
+        }
+    }
+    return resp;
+}
