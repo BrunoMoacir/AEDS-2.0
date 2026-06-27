@@ -197,3 +197,21 @@ private int contaVogal(No no){
     }
     return resp;
 }
+
+// na trie lista contar quantos nos possuem exatamente 3 filhos
+public int contaTresFilhos(){
+    return contaTresFilhos(raiz);
+}
+private int contaTresFilhos(No no){
+    int resp = 0;
+    No [] filhos = getFilho();// transformo a lista em vetor
+
+    if(filhos.length == 3){// se tiver exatamente 3 filhos
+        resp ++;
+    }
+
+    for(int i = 0; i < filhos.length; i++){// visito cada filho
+        resp += contarTresFilhos(filhos[i]);
+    }
+    return resp;
+}
