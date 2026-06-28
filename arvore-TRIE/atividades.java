@@ -314,3 +314,20 @@ private int contarMaior(No no){
         }
     }
 }
+
+// na trie lista contar quantos nos possuem exatamente um filho
+public int contaUmFilho(){
+    return contaUmFilho(raiz);
+}
+private int contaUmFilho(No no){
+    int count = 0;
+
+    No [] filhos = no.getFilho();
+
+    if(filhos.length == 1){
+        count ++;
+    }
+    for(int i = 0; i < filhos.length; i++){
+        count += contaUmFilho(filhos[i]);
+    }
+}
