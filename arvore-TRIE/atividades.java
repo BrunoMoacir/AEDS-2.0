@@ -277,3 +277,24 @@ private int contarUmFilho(No i){
     return resp;
 }
 
+// na trie hash retornar a quantidade de palavras terminadas com tal letra
+public int contaPalavras(char letra){
+    return contaPalavras(raiz, letra);
+}
+private int contaPalavras(No no, char letra){
+    int count = 0;
+
+    if(no.folha){
+        if(no.elemento == letra){
+            count ++;
+        }
+    }
+
+    for(int i = 0; i < no.prox.length; i++){
+        if(no.prox[i] != null){
+            count += contaPalavras(no.prox[i], letra);
+        }
+    }
+    return count;
+}
+
