@@ -298,3 +298,19 @@ private int contaPalavras(No no, char letra){
     return count;
 }
 
+// na trie hash contar quantas nos possuem letra maior que m
+public int contarMaior(){
+    return contarMaior(raiz);
+}
+private int contarMaior(No no){
+    int count = 0;
+    if(no.elemento > 'M'){
+        count ++;
+    }
+
+    for(int i = 0; i < no.prox.length; i++){
+        if(no.prox[i] != null){
+            count += contarMaior(no.prox[i]);
+        }
+    }
+}
